@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Fluffy
+  - Food
+  - Drink
+  - Corpse
+  - Machine
+  - Sensor
+  - Limb
+  - Toy
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - Object Collision
+  - Interactable
+  - Map
+  - Lesser Interactable
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Background
+    uniqueID: 1488453031
+    locked: 0
+  - name: Map
+    uniqueID: 1380909439
+    locked: 0
+  - name: Objects
+    uniqueID: 3538104661
+    locked: 0
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Foreground
+    uniqueID: 2757949365
+    locked: 0
+  - name: UI
+    uniqueID: 2610723437
+    locked: 0
+  - name: Message
+    uniqueID: 1228619247
+    locked: 0
+  - name: Overlay
+    uniqueID: 1320224295
+    locked: 0
