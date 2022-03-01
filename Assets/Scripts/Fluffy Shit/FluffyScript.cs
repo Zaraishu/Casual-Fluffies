@@ -1211,6 +1211,9 @@ public class FluffyScript : MonoBehaviour
         {
             LostLimb = transform.GetChild(0).GetChild(0).GetChild(0).GetChild(4).gameObject;
             Destroy(LostLimb.transform.GetChild(0).gameObject);
+            // The Shine sprite (child of the Fluffy GameObject at position 0,0,0,5) overlaps the "missingeye" sprite when destroyed.
+            // I'm unsure if you can just destroy this like the Eye GameObject, so I'm just setting the Shine GameObject as inactive for now.
+            transform.GetChild(0).GetChild(0).GetChild(0).GetChild(5).gameObject.SetActive(false);
             LostLimb.GetComponent<SpriteRenderer>().color = Needs.Base;
             LostLimb.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("missingeye");
             Needs.NoEyes = true;
