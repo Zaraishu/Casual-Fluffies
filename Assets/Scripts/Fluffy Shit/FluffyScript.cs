@@ -1031,6 +1031,8 @@ public class FluffyScript : MonoBehaviour
                         Needs.Pregnant = true;
                         Needs.FoalNumber = Random.Range(2, 7);
                     }
+                    // This part of the code handles the messages of other fluffies witnessing the act.
+                    // TODO: extract the code in a new method, possibly using an event.
                     GameObject[] Results = GameObject.FindGameObjectsWithTag("Fluffy");
                     float Distance = 30;
                     foreach (GameObject hit in Results)
@@ -1118,6 +1120,7 @@ public class FluffyScript : MonoBehaviour
         transform.GetChild(0).GetComponent<AnimEvents>().SetFace(Face);
     }
 
+    // TODO: Use enums!!
     public void LoseLimb(int Limb)
     {
         Message("SCREEEEEEEEEEEEEEEEEEEEEEEEE!", null, null, null);
@@ -1228,6 +1231,8 @@ public class FluffyScript : MonoBehaviour
         {
             LimbLost = Instantiate(Resources.Load<GameObject>("Corpse").transform.GetChild(0).GetChild(10).GetChild(Limb).gameObject);
         }
+
+        // For some reason, the rest of the instantiation of the LimbLost object is handled here.
         if (LimbLost != null)
         {
             LimbLost.transform.position = LostLimb.transform.position;
@@ -1254,6 +1259,7 @@ public class FluffyScript : MonoBehaviour
                 else if (child.name == "Cutie Mark")
                 {
                     child.GetComponent<SpriteRenderer>().color = Needs.CutieMark;
+                    // A fluffy younger than 600 seconds cannot have a cutie mark after getting its cutie mark spot cut...does this make sense? 
                     if (Needs.Age < 600)
                     {
                         child.SetActive(false);
@@ -1263,6 +1269,7 @@ public class FluffyScript : MonoBehaviour
         }
     }
 
+    // TODO: divide into four separate methods
     public void AffectPersonality(float Morality, float Decency, float Cannibalism, float Sexuality)
     {
         Needs.Morality = Mathf.Clamp(Needs.Morality + Morality, 1, 100);
@@ -1511,6 +1518,8 @@ public class FluffyScript : MonoBehaviour
     #region Affects Bystanders
 
     //Detect that the fluffy is no longer falling and apply fall damage while scaring the shit out of other fluffies if possible.
+    //Note: This whole block is 400 lines of barely understandable if/else statements! It bloated up because every message that may occur after fall damage is applied is also handled here!
+    //TODO: Extract the message handling logic into a new method or class.
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (Falling == true)
@@ -1955,6 +1964,7 @@ public class FluffyScript : MonoBehaviour
     void SpecialHuggies(GameObject Fluffy, bool Submissive)
     {
         FluffyVariables OtherNeeds = Fluffy.GetComponent<FluffyVariables>();
+        //TODO: Refactoring with the predefined zero vector 
         GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
         Fluffy.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
         transform.position = new Vector3(Fluffy.transform.position.x - 1, transform.position.y, 0);
@@ -1969,6 +1979,7 @@ public class FluffyScript : MonoBehaviour
             Genes.HairGenes = Needs.HairGenes;
             Genes.SizeGenes = Needs.SizeGenes;
             Genes.transform.parent = OtherNeeds.transform.parent;
+            //This field is null during playtesting. Why?
             OtherNeeds.FatherGenes = Genes;
         }
         Relationship Bond;
@@ -1986,6 +1997,8 @@ public class FluffyScript : MonoBehaviour
             float Distance = 10;
             foreach (GameObject hit in Results)
             {
+                //Why would you check for every fluffy to be in distance of the action happening AFTER adding every fluffy to a GameObject array?
+                //TODO: Rewrite this to only add fluffies which are already in distance, then iterate through every entry in Results. And use an ArrayList, goddammit!
                 if ((hit.transform.position - transform.position).magnitude < Distance)
                 {
                     FluffyScript OtherFluffy = hit.GetComponent<FluffyScript>();
@@ -3055,6 +3068,7 @@ public class FluffyScript : MonoBehaviour
                         }
                     }
                 }
+                // TODO: The else nested at the wrong place and will never fire for a fluffy without ears!!
                 else
                 {
                     Fluffy.PlaySound("sadtalk", true);

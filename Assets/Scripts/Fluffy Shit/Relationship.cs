@@ -20,6 +20,9 @@ public class Relationship {
 
     public float Fear;
     public float Anger;
+
+    // Should be tracked differently, since there is no way a fluffy can both be the parent AND the child of another fluffy...
+    // (Also, siblings cannot be special friends. Except when using an incest feature...)
     public bool IsChild;
     public bool IsParent;
     public bool IsSpecialFriend;

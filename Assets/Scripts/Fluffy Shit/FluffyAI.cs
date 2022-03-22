@@ -389,6 +389,8 @@ public class FluffyAI : MonoBehaviour
                                                 Fluffy.Message("<NAME> WAN' SPESHUW HUGGIES WIF <NAME0>!", Names, Subs, "FWUFFY");
                                                 if (Victim.Needs.Decency > 40)
                                                 {
+                                                    // TODO: The SexDrive variable is set to 0 by the FluffyScript.Mate() method.
+                                                    // Is the code obsolete?
                                                     Victim.Needs.SexDrive = 0;
                                                     Victim.FluffyEvent(4, 0, Fluffy.gameObject, 5, "Run", 4, 4, false);
                                                     Victim.PlaySound("scree", true);

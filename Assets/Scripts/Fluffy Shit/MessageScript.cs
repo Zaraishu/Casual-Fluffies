@@ -8,16 +8,15 @@ public class MessageScript : MonoBehaviour {
     public GameObject Anchor;
     public static int Number;
 
-
-	// Use this for initialization
 	void Start () {
         Invoke("DestroyObject", 5);
         gameObject.GetComponent<SpriteRenderer>().sortingOrder = Number;
         gameObject.transform.GetChild(0).GetComponent<Canvas>().sortingOrder = Number;
+        // The number is essential for the sorting order of the game object, but never decreases.
+        // Might be interesting to see if it can be lowered again by decrementing it in the OnDestroy method 
         Number += 1;
 	}
 	
-	// Update is called once per frame
 	void Update () {
         if (Anchor != null)
         {

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class FluffyVariables : MonoBehaviour {
 
+    // Can the whole class be implemented as a ScriptObject?
+    // Should be set to private and use getter/setter methods instead
     public float Morality;
     public float Decency;
     public float Cannibalism;
@@ -14,6 +16,7 @@ public class FluffyVariables : MonoBehaviour {
     public float Thirst;
     public float Poop;
     public float Health;
+    // What's the difference between Sexuality and SexDrive?
     public float SexDrive;
 
     public float Milk;
@@ -26,15 +29,18 @@ public class FluffyVariables : MonoBehaviour {
     public bool Miscarrying;
 
     public int Sex;
+    // Is a float variable actually necessary, or does an integer do the job?
     public float Age;
     public string Name;
     public int ID;
     public string Description;
 
+    // Should be an enum instead
     public int Race;
 
     public FluffyVariables FatherGenes;
 
+    // This is confusing: of course these are variables are of type Color, but this can get lead to errors!
     public Color Base;
     public Color Mane;
     public Color Eyes;
@@ -44,6 +50,7 @@ public class FluffyVariables : MonoBehaviour {
 
     public List<Relationship> Relationships;
 
+    // Missing limbs are tracked by using bool variables...is there another way to keep track of missing limbs instead?
     public bool NoEyes;
 
     public bool NoEarR;

@@ -357,6 +357,16 @@ public class PlayerControls : MonoBehaviour
                 }
             }
 
+            // NEW FUNCTION: Destroys a game object under the cursor by pressing the x key
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+                RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), new Vector2(0, 0));
+                if (hit)
+                {
+                    Destroy(hit.collider.gameObject);
+                }
+            }
+
             //interaction
             if (Input.GetMouseButtonDown(0))
             {
@@ -448,6 +458,8 @@ public class PlayerControls : MonoBehaviour
                                 {
                                     GameObject SpawnedBlood = Instantiate((GameObject)Resources.Load("Blood"));
                                     SpawnedBlood.transform.position = Hit.collider.gameObject.transform.position;
+                                    // WHAT??? Why would you check the name of a limb GameObject to lose it?
+                                    // YOU ALREADY HAVE THE OBJECT, YOU DON'T NEED TO CALL ANOTHER FUNCTION FOR EVERY LIMB!
                                     if (Hit.collider.gameObject.transform.parent.parent.name == "tail_000")
                                     {
                                         Hit.collider.gameObject.transform.parent.parent.parent.parent.parent.GetComponent<FluffyScript>().LoseLimb(0);
