@@ -151,7 +151,13 @@ public class PlayerControls : MonoBehaviour
 
     public void SetName(string Name)
     {
+        string oldName = SelectedFluffy.GetComponent<FluffyVariables>().Name;
         SelectedFluffy.GetComponent<FluffyVariables>().Name = Name;
+        if (oldName != Name && Name != "")
+        {
+            SelectedFluffy.GetComponent<FluffyScript>().PlaySound("happytalk", true);
+            SelectedFluffy.GetComponent<FluffyScript>().Message("fwuffy nyu namesie is <name>? <name> wubs nyu namesie!", null, null, null);
+        }
     }
 
     public void SetBuilding()
@@ -520,6 +526,7 @@ public class PlayerControls : MonoBehaviour
                                     break;
                                 }
                             }
+                            // This seems to open the Fluffy Stats Panel
                             else if (Hit.collider.gameObject.transform.parent.CompareTag("Fluffy"))
                             {
                                 if (Mode == 5)
