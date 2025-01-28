@@ -21,7 +21,7 @@ public class SwitchScript : MonoBehaviour {
 
     public void OnMouseDown()
     {
-        if (GameObject.Find("Main Camera").GetComponent<PlayerControls>().Mode == 0)
+        if (GameObject.Find("Main Camera").GetComponent<PlayerControls>().mode == 0)
         {
             if (gameObject.GetComponent<Output>().Signal == false)
             {

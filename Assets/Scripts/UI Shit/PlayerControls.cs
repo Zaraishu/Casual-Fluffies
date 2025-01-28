@@ -10,11 +10,11 @@ public class PlayerControls : MonoBehaviour
     GameObject HeldObject;
 
     int FoodValue;
-    public int Mode;
+    public ToolMode mode;
     GameObject Data;
-    public Vector3 ScreenBounds;
-    float TotalMood;
-    int FluffyNumber;
+    public Vector3 screenBounds;
+    float totalMood;
+    int fluffyNumber;
     GameObject SelectedFluffy;
     bool Editing;
     public bool Building;
@@ -37,110 +37,94 @@ public class PlayerControls : MonoBehaviour
 
     public GameObject SelectedObject;
 
+    public Text hintText;
+    public TextScript textScript;
+
     public void GainMoney(float GainedMoney)
     {
         Money += Mathf.RoundToInt(GainedMoney * 100) / 100;
         transform.Find("Weird Technical Shit").GetChild(0).GetChild(0).GetComponent<Text>().text = "$" + Money.ToString();
     }
 
-    #region Setting a Bunch of Shit
+    #region Setting the tool mode
 
-    public void SetMode(int Number)
+    public void SetMode(int mode)
     {
-        Mode = Number;
-        gameObject.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = (Sprite)Resources.LoadAll("tray")[Number + 1];
-        if (Mode == 0)
-        {
-            gameObject.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = "Click and drag to pick up fluffies, food bowls, and other objects. Some static objects can be interacted with as well.";
-            gameObject.transform.GetChild(0).GetChild(1).gameObject.SetActive(true);
-            gameObject.transform.GetChild(0).GetChild(1).GetComponent<TextScript>().StopAllCoroutines();
-            gameObject.transform.GetChild(0).GetChild(1).GetComponent<TextScript>().StartCoroutine("Fade");
-        }
-        else if (Mode == 1)
-        {
-            gameObject.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = "Use the feeding menu to fill bowls with different foods.";
-            gameObject.transform.GetChild(0).GetChild(1).gameObject.SetActive(true);
-            gameObject.transform.GetChild(0).GetChild(1).GetComponent<TextScript>().StopAllCoroutines();
-            gameObject.transform.GetChild(0).GetChild(1).GetComponent<TextScript>().StartCoroutine("Fade");
-        }
-        else if (Mode == 2)
-        {
-            gameObject.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = "Click and drag over spills, poop, and other messes to clean them up.";
-            gameObject.transform.GetChild(0).GetChild(1).gameObject.SetActive(true);
-            gameObject.transform.GetChild(0).GetChild(1).GetComponent<TextScript>().StopAllCoroutines();
-            gameObject.transform.GetChild(0).GetChild(1).GetComponent<TextScript>().StartCoroutine("Fade");
-        }
-        else if (Mode == 3)
-        {
-            gameObject.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = "Click on fluffies' body parts to cut them off.";
-            gameObject.transform.GetChild(0).GetChild(1).gameObject.SetActive(true);
-            gameObject.transform.GetChild(0).GetChild(1).GetComponent<TextScript>().StopAllCoroutines();
-            gameObject.transform.GetChild(0).GetChild(1).GetComponent<TextScript>().StartCoroutine("Fade");
-        }
-        else if (Mode == 4)
-        {
-            gameObject.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = "Click and drag over dead fluffies to remove them.";
-            gameObject.transform.GetChild(0).GetChild(1).gameObject.SetActive(true);
-            gameObject.transform.GetChild(0).GetChild(1).GetComponent<TextScript>().StopAllCoroutines();
-            gameObject.transform.GetChild(0).GetChild(1).GetComponent<TextScript>().StartCoroutine("Fade");
-        }
-        else if (Mode == 5)
-        {
-            gameObject.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = "Click on fluffies to view their age and edit their names and descriptions, and press escape to close the editing window. Some other objects have statistics that can be viewed and edited as well.";
-            gameObject.transform.GetChild(0).GetChild(1).gameObject.SetActive(true);
-            gameObject.transform.GetChild(0).GetChild(1).GetComponent<TextScript>().StopAllCoroutines();
-            gameObject.transform.GetChild(0).GetChild(1).GetComponent<TextScript>().StartCoroutine("Fade");
-        }
-        else if (Mode == 6)
-        {
-            gameObject.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = "Use the building menu to build structures and machines.";
-            gameObject.transform.GetChild(0).GetChild(1).gameObject.SetActive(true);
-            gameObject.transform.GetChild(0).GetChild(1).GetComponent<TextScript>().StopAllCoroutines();
-            gameObject.transform.GetChild(0).GetChild(1).GetComponent<TextScript>().StartCoroutine("Fade");
-        }
-        else if (Mode == 7)
-        {
-            gameObject.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = "Use the inventory menu to place items.";
-            gameObject.transform.GetChild(0).GetChild(1).gameObject.SetActive(true);
-            gameObject.transform.GetChild(0).GetChild(1).GetComponent<TextScript>().StopAllCoroutines();
-            gameObject.transform.GetChild(0).GetChild(1).GetComponent<TextScript>().StartCoroutine("Fade");
-        }
-        else if (Mode == 8)
-        {
-            gameObject.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = "Use the Fluffy Business menu to perform various fluffy-related tasks.";
-            gameObject.transform.GetChild(0).GetChild(1).gameObject.SetActive(true);
-            gameObject.transform.GetChild(0).GetChild(1).GetComponent<TextScript>().StopAllCoroutines();
-            gameObject.transform.GetChild(0).GetChild(1).GetComponent<TextScript>().StartCoroutine("Fade");
-        }
-        gameObject.transform.GetChild(7).gameObject.SetActive(false);
-        gameObject.transform.GetChild(5).gameObject.SetActive(false);
-        gameObject.transform.GetChild(8).gameObject.SetActive(false);
-        gameObject.transform.GetChild(10).gameObject.SetActive(false);
-        if (Mode == 1)
-        {
-            gameObject.transform.GetChild(8).gameObject.SetActive(true);
-            FoodButton Tile = gameObject.transform.GetChild(8).GetChild(0).GetChild(3).GetChild(0).GetChild(0).GetChild(0).GetComponent<FoodButton>();
-            Tile.SetSprite();
-        }
-        else if (Mode == 6)
-        {
-            gameObject.transform.GetChild(5).gameObject.SetActive(true);
-            TileButton Tile = gameObject.transform.GetChild(5).GetChild(0).GetChild(4).GetChild(0).GetChild(0).GetChild(0).GetComponent<TileButton>();
-            Tile.SetSprite();
-        }
-        else if (Mode == 7)
-        {
-            gameObject.transform.GetChild(7).gameObject.SetActive(true);
-            TileButton Tile = gameObject.transform.GetChild(7).GetChild(0).GetChild(3).GetChild(0).GetChild(0).GetChild(0).GetComponent<TileButton>();
-            Tile.SetSprite();
-        } else if (Mode == 8)
-        {
-            gameObject.transform.GetChild(10).gameObject.SetActive(true);
+        this.mode = (ToolMode) mode;
+        gameObject.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = (Sprite)Resources.LoadAll("tray")[mode + 1];
+        gameObject.transform.GetChild(0).GetChild(1).gameObject.SetActive(true);
 
-            transform.GetChild(10).GetChild(0).GetChild(0).GetChild(1).GetChild(0).GetChild(0).GetChild(0).GetComponent<Text>().text = "Select a fluffy and click the Spawn button to place it in the world.";
-            transform.GetChild(10).GetChild(0).GetChild(0).GetChild(0).GetChild(0).gameObject.SetActive(false);
-            transform.GetChild(10).GetChild(0).GetChild(0).GetChild(0).GetChild(1).gameObject.SetActive(false);
-            transform.GetChild(10).GetChild(0).GetChild(0).GetChild(0).GetChild(2).gameObject.SetActive(false);
+        switch ((ToolMode) mode)
+        {
+            case ToolMode.Grab:
+                textScript.Fade("Click and drag to pick up fluffies, food bowls, and other objects. Some static objects can be interacted with as well.");
+                break;
+
+            case ToolMode.Feed:
+                textScript.Fade("Use the feeding menu to fill bowls with different foods.");
+                break;
+
+            case ToolMode.CleanSpills:
+                textScript.Fade("Click and drag over spills, poop, and other messes to clean them up.");
+                break;
+
+            case ToolMode.Cut:
+                textScript.Fade("Click on fluffies' body parts to cut them off.");
+                break;
+
+            case ToolMode.Trash:
+                textScript.Fade("Click and drag over dead fluffies to remove them.");
+                break;
+
+            case ToolMode.Inspect:
+                textScript.Fade("Click on fluffies to view their age and edit their names and descriptions, and press escape to close the editing window. Some other objects have statistics that can be viewed and edited as well.");
+                break;
+
+            case ToolMode.Build:
+                textScript.Fade("Use the building menu to build structures and machines.");
+                break;
+
+            case ToolMode.Inventory:
+                textScript.Fade("Use the inventory menu to place items.");
+                break;
+
+            case ToolMode.Business:
+                textScript.Fade("Use the Fluffy Business menu to perform various fluffy-related tasks.");
+                break;
+        }
+
+        gameObject.transform.Find("Building Menu").gameObject.SetActive(false);
+        gameObject.transform.Find("Inventory Menu").gameObject.SetActive(false);
+        gameObject.transform.Find("Food Menu").gameObject.SetActive(false);
+        gameObject.transform.Find("Fluffy Business Menu").gameObject.SetActive(false);
+
+        switch ((ToolMode) mode)
+        {
+            case ToolMode.Feed:
+                gameObject.transform.GetChild(8).gameObject.SetActive(true);
+                FoodButton Tile = gameObject.transform.GetChild(8).GetChild(0).GetChild(3).GetChild(0).GetChild(0).GetChild(0).GetComponent<FoodButton>();
+                Tile.SetSprite();
+                break;
+
+            case ToolMode.Build:
+                gameObject.transform.GetChild(5).gameObject.SetActive(true);
+                gameObject.transform.GetChild(5).GetChild(0).GetChild(4).GetChild(0).GetChild(0).GetChild(0).GetComponent<TileButton>().SetSprite();
+                break;
+
+            case ToolMode.Inventory:
+                gameObject.transform.GetChild(7).gameObject.SetActive(true);
+                gameObject.transform.GetChild(7).GetChild(0).GetChild(3).GetChild(0).GetChild(0).GetChild(0).GetComponent<TileButton>().SetSprite();
+                break;
+
+            case ToolMode.Business:
+
+                gameObject.transform.GetChild(10).gameObject.SetActive(true);
+
+                transform.GetChild(10).GetChild(0).GetChild(0).GetChild(1).GetChild(0).GetChild(0).GetChild(0).GetComponent<Text>().text = "Select a fluffy and click the Spawn button to place it in the world.";
+                transform.GetChild(10).GetChild(0).GetChild(0).GetChild(0).GetChild(0).gameObject.SetActive(false);
+                transform.GetChild(10).GetChild(0).GetChild(0).GetChild(0).GetChild(1).gameObject.SetActive(false);
+                transform.GetChild(10).GetChild(0).GetChild(0).GetChild(0).GetChild(2).gameObject.SetActive(false);
+                break;
         }
     }
 
@@ -218,41 +202,34 @@ public class PlayerControls : MonoBehaviour
     {
         Cursor.SetCursor(Resources.Load("mouse") as Texture2D, new Vector2(0, 0), CursorMode.Auto);
         Screen.fullScreen = false;
+        hintText = gameObject.transform.Find("Interface").Find("Text").GetComponent<Text>();
+        textScript = gameObject.transform.Find("Interface").Find("Text").GetComponent<TextScript>();
+
         if (Screen.currentResolution.height < 768)
         {
             Screen.SetResolution(512, 384, false);
-            gameObject.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = "Press space to spawn a random fluffy. Instructions for various modes of interaction can be seen by clicking their icons on the tray. Have fun! \n \nNOTE: Your screen resolution is too small for the full-sized window, so the game has launched in Potato Mode. That's why it looks like shit.";
-            gameObject.transform.GetChild(0).GetChild(1).GetComponent<TextScript>().StartCoroutine("Fade");
+
+            textScript.Fade("Press space to spawn a random fluffy. Instructions for various modes of interaction can be seen by clicking their icons on the tray. Have fun! \n \nNOTE: Your screen resolution is too small for the full-sized window, so the game has launched in Potato Mode. That's why it looks like shit.");
         }
-        else {
+        else
+        {
             Screen.SetResolution(1024, 768, false);
-            gameObject.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = "Press space to spawn a random fluffy. Instructions for various modes of interaction can be seen by clicking their icons on the tray. Have fun!";
-            gameObject.transform.GetChild(0).GetChild(1).GetComponent<TextScript>().StartCoroutine("Fade");
+            textScript.Fade("Press space to spawn a random fluffy. Instructions for various modes of interaction can be seen by clicking their icons on the tray. Have fun!");
         }
         Data = gameObject.transform.GetChild(2).gameObject;
         Selector = GameObject.Find("Selector");
     }
-    // Update is called once per frame
+
     void Update()
     {
         //set screen size
-        ScreenBounds = gameObject.GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)) - gameObject.GetComponent<Camera>().ScreenToWorldPoint(new Vector3(0, 0, 0));
+        screenBounds = gameObject.GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)) - gameObject.GetComponent<Camera>().ScreenToWorldPoint(new Vector3(0, 0, 0));
         //set ambient mood
-        RaycastHit2D[] Fluffies;
-        Fluffies = Physics2D.BoxCastAll(gameObject.transform.position, new Vector2(ScreenBounds.x, ScreenBounds.y), 0, new Vector2(0, 0));
-        TotalMood = 0;
-        FluffyNumber = 0;
-        foreach (RaycastHit2D Fluff in Fluffies)
+        totalMood = 0;
+        fluffyNumber = getFluffiesOnScreen();
+        if (fluffyNumber > 0)
         {
-            if (Fluff.collider.gameObject.CompareTag("Fluffy"))
-            {
-                TotalMood += Fluff.collider.gameObject.GetComponent<FluffyScript>().Mood;
-                FluffyNumber += 1;
-            }
-        }
-        if (FluffyNumber > 0)
-        {
-            float Total = (TotalMood / FluffyNumber) / 100;
+            float Total = (totalMood / fluffyNumber) / 100;
             gameObject.GetComponent<AudioSource>().pitch = 0.25f + (Total * 0.75f);
         }
         //menu
@@ -307,7 +284,8 @@ public class PlayerControls : MonoBehaviour
                 gameObject.transform.GetChild(10).GetChild(2).gameObject.SetActive(false);
                 gameObject.transform.GetChild(0).gameObject.SetActive(true);
                 Spawning = false;
-            } else if (Storing == true)
+            }
+            else if (Storing == true)
             {
                 gameObject.transform.GetChild(10).GetChild(0).gameObject.SetActive(true);
                 gameObject.transform.GetChild(10).GetChild(1).gameObject.SetActive(false);
@@ -324,44 +302,17 @@ public class PlayerControls : MonoBehaviour
         }
         if (Editing == false)
         {
-
             //spawning controls
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                GameObject Thing = Instantiate((GameObject)Resources.Load("Fluffy"));
-                Thing.transform.position = gameObject.GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition + new Vector3(0, 0, 10));
-                Thing.GetComponent<FluffyScript>().SetRace(Random.Range(0, 3), Random.Range(0, 3));
-                Thing.GetComponent<FluffyScript>().SetAlicorn(Random.Range(0, 2) == 0, Random.Range(0, 2) == 0);
-                Thing.GetComponent<FluffyScript>().SetBase(Random.ColorHSV(), Random.ColorHSV());
-                Thing.GetComponent<FluffyScript>().SetMane(Random.ColorHSV(), Random.ColorHSV());
-                Thing.GetComponent<FluffyScript>().SetEyes(Random.ColorHSV(), Random.ColorHSV());
-                Thing.GetComponent<FluffyScript>().SetHair(Random.Range(0, 3), Random.Range(0, 3));
-                Thing.GetComponent<FluffyScript>().SetSize(Random.Range(0.9f, 1.1f), Random.Range(0.9f, 1.1f));
-                Thing.GetComponent<FluffyVariables>().Age = 600;
-                if (Thing.GetComponent<FluffyVariables>().AlicornGenes[0] == true && Thing.GetComponent<FluffyVariables>().AlicornGenes[1] == true)
-                {
-                    bool HasPegasus = false;
-                    bool HasUnicorn = false;
-                    if (Thing.GetComponent<FluffyVariables>().RaceGenes[0] == 1 || Thing.GetComponent<FluffyVariables>().RaceGenes[1] == 1)
-                    {
-                        HasPegasus = true;
-                    }
-                    if (Thing.GetComponent<FluffyVariables>().RaceGenes[0] == 2 || Thing.GetComponent<FluffyVariables>().RaceGenes[1] == 2)
-                    {
-                        HasUnicorn = true;
-                    }
-                    if (HasPegasus == false || HasUnicorn == false)
-                    {
-                        Thing.GetComponent<FluffyVariables>().AlicornGenes[Random.Range(0, 2)] = false;
-                    }
-                }
+                spawnFluffy();
             }
 
             // NEW FUNCTION: Destroys a game object under the cursor by pressing the x key
             if (Input.GetKeyDown(KeyCode.X))
             {
                 RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), new Vector2(0, 0));
-                if (hit)
+                if (hit && hit.transform.gameObject.CompareTag("Fluffy"))
                 {
                     Destroy(hit.collider.gameObject);
                 }
@@ -428,7 +379,7 @@ public class PlayerControls : MonoBehaviour
                                     }
                                 break;
                             }
-                            if (Mode == 0)
+                            if (mode == ToolMode.Grab)
                             {
                                 if (Hit.collider.gameObject.name == "Pickup")
                                 {
@@ -454,7 +405,7 @@ public class PlayerControls : MonoBehaviour
                             }
                             else if (Hit.collider.gameObject.name == "Dismember")
                             {
-                                if (Mode == 3)
+                                if (mode == ToolMode.Cut)
                                 {
                                     GameObject SpawnedBlood = Instantiate((GameObject)Resources.Load("Blood"));
                                     SpawnedBlood.transform.position = Hit.collider.gameObject.transform.position;
@@ -522,7 +473,7 @@ public class PlayerControls : MonoBehaviour
                             }
                             else if (Hit.collider.gameObject.transform.parent.CompareTag("Fluffy"))
                             {
-                                if (Mode == 5)
+                                if (mode == ToolMode.Inspect)
                                 {
                                     Editing = true;
                                     SelectedFluffy = Hit.collider.gameObject.transform.parent.gameObject;
@@ -540,7 +491,8 @@ public class PlayerControls : MonoBehaviour
                                     Data.SetActive(true);
                                     gameObject.transform.GetChild(0).gameObject.SetActive(false);
                                     break;
-                                } else if (Storing)
+                                }
+                                else if (Storing)
                                 {
                                     GameObject Button = Instantiate((GameObject)Resources.Load("Spawn Button"));
                                     Button.transform.SetParent(gameObject.transform.GetChild(10).GetChild(0).GetChild(2).GetChild(0).GetChild(0));
@@ -558,7 +510,7 @@ public class PlayerControls : MonoBehaviour
                             }
                             else if (Hit.collider.gameObject.transform.parent.CompareTag("Sensor"))
                             {
-                                if (Mode == 5)
+                                if (mode == ToolMode.Inspect)
                                 {
                                     Editing = true;
                                     GameObject Sensor = gameObject.transform.GetChild(6).gameObject;
@@ -726,7 +678,7 @@ public class PlayerControls : MonoBehaviour
             {
                 if (Input.GetMouseButton(0))
                 {
-                    if (Mode == 2)
+                    if (mode == ToolMode.CleanSpills)
                     {
                         GameObject.Find("Splatters").GetComponent<Tilemap>().SetTile(Vector3Int.FloorToInt(gameObject.GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10))), null);
                     }
@@ -802,11 +754,11 @@ public class PlayerControls : MonoBehaviour
                                     }
                                     else if (child.name == "Biowaste")
                                     {
-                                        if (Mode == 4)
+                                        if (mode == ToolMode.Trash)
                                         {
                                             Destroy(child.parent.gameObject);
                                         }
-                                        if (Mode == 7)
+                                        if (mode == ToolMode.Inventory)
                                         {
                                             Destroy(child.gameObject);
                                         }
@@ -825,9 +777,10 @@ public class PlayerControls : MonoBehaviour
                 if (Input.GetAxis("Mouse ScrollWheel") > 0)
                 {
                     gameObject.transform.localScale -= new Vector3(0.2f, 0.2f, 0);
-                } else
+                }
+                else
                 {
-                   gameObject.transform.localScale += new Vector3(0.2f, 0.2f, 0);
+                    gameObject.transform.localScale += new Vector3(0.2f, 0.2f, 0);
                 }
                 gameObject.transform.localScale = new Vector3(Mathf.Clamp(gameObject.transform.localScale.x, 0.4f, 5f), Mathf.Clamp(gameObject.transform.localScale.y, 0.4f, 5f), 1);
 
@@ -838,8 +791,8 @@ public class PlayerControls : MonoBehaviour
             }
             if (Input.GetKey(KeyCode.W))
             {
-                    gameObject.transform.position += new Vector3(0, 30 * Time.deltaTime * gameObject.transform.localScale.y, 0);
-                    gameObject.transform.position = new Vector3(gameObject.transform.position.x, Mathf.Clamp(gameObject.transform.position.y + (12 * gameObject.transform.localScale.y), -12, 111) - (12 * gameObject.transform.localScale.y), transform.position.z);
+                gameObject.transform.position += new Vector3(0, 30 * Time.deltaTime * gameObject.transform.localScale.y, 0);
+                gameObject.transform.position = new Vector3(gameObject.transform.position.x, Mathf.Clamp(gameObject.transform.position.y + (12 * gameObject.transform.localScale.y), -12, 111) - (12 * gameObject.transform.localScale.y), transform.position.z);
             }
             if (Input.GetKey(KeyCode.S))
             {
@@ -848,13 +801,66 @@ public class PlayerControls : MonoBehaviour
             }
             if (Input.GetKey(KeyCode.A))
             {
-                    gameObject.transform.position -= new Vector3(30 * Time.deltaTime * gameObject.transform.localScale.x, 0, 0);
-                    gameObject.transform.position = new Vector3(Mathf.Clamp(gameObject.transform.position.x - (16 * gameObject.transform.localScale.x), -192, 192) + (16 * gameObject.transform.localScale.x), transform.position.y, transform.position.z);
+                gameObject.transform.position -= new Vector3(30 * Time.deltaTime * gameObject.transform.localScale.x, 0, 0);
+                gameObject.transform.position = new Vector3(Mathf.Clamp(gameObject.transform.position.x - (16 * gameObject.transform.localScale.x), -192, 192) + (16 * gameObject.transform.localScale.x), transform.position.y, transform.position.z);
             }
             if (Input.GetKey(KeyCode.D))
             {
                 gameObject.transform.position += new Vector3(30 * Time.deltaTime * gameObject.transform.localScale.x, 0, 0);
                 gameObject.transform.position = new Vector3(Mathf.Clamp(gameObject.transform.position.x + (16 * gameObject.transform.localScale.x), -192, 192) - (16 * gameObject.transform.localScale.x), transform.position.y, transform.position.z);
+            }
+        }
+    }
+
+    public int getFluffiesOnScreen()
+    {
+        RaycastHit2D[] Fluffies = Physics2D.BoxCastAll(gameObject.transform.position, new Vector2(screenBounds.x, screenBounds.y), 0, new Vector2(0, 0));
+
+        int fluffyNumber = 0;
+
+        foreach (RaycastHit2D Fluff in Fluffies)
+        {
+            if (Fluff.collider.gameObject.CompareTag("Fluffy"))
+            {
+                totalMood += Fluff.collider.gameObject.GetComponent<FluffyScript>().Mood;
+                fluffyNumber += 1;
+            }
+        }
+
+        return fluffyNumber;
+    }
+
+    public void spawnFluffy()
+    {
+        GameObject newFluffy = Instantiate((GameObject)Resources.Load("Fluffy"));
+        newFluffy.transform.position = gameObject.GetComponent<Camera>().ScreenToWorldPoint(Input.mousePosition + new Vector3(0, 0, 10));
+
+        FluffyScript fluffyScript = newFluffy.GetComponent<FluffyScript>();
+
+        fluffyScript.SetRace(Random.Range(0, 3), Random.Range(0, 3));
+        fluffyScript.SetAlicorn(Random.Range(0, 2) == 0, Random.Range(0, 2) == 0);
+        fluffyScript.SetBase(Random.ColorHSV(), Random.ColorHSV());
+        fluffyScript.SetMane(Random.ColorHSV(), Random.ColorHSV());
+        fluffyScript.SetEyes(Random.ColorHSV(), Random.ColorHSV());
+        fluffyScript.SetHair(Random.Range(0, 3), Random.Range(0, 3));
+        fluffyScript.SetSize(Random.Range(0.9f, 1.1f), Random.Range(0.9f, 1.1f));
+        newFluffy.GetComponent<FluffyVariables>().Age = 600;
+
+        if (newFluffy.GetComponent<FluffyVariables>().AlicornGenes[0] == true && newFluffy.GetComponent<FluffyVariables>().AlicornGenes[1] == true)
+        {
+            bool HasPegasus = false;
+            bool HasUnicorn = false;
+            if (newFluffy.GetComponent<FluffyVariables>().RaceGenes[0] == 1 || newFluffy.GetComponent<FluffyVariables>().RaceGenes[1] == 1)
+            {
+                HasPegasus = true;
+            }
+            if (newFluffy.GetComponent<FluffyVariables>().RaceGenes[0] == 2 || newFluffy.GetComponent<FluffyVariables>().RaceGenes[1] == 2)
+            {
+                HasUnicorn = true;
+            }
+            if (HasPegasus == false || HasUnicorn == false)
+            {
+                newFluffy.GetComponent<FluffyVariables>().AlicornGenes[Random.Range(0, 2)] = false;
             }
         }
     }

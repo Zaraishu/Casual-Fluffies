@@ -7804,8 +7804,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d160652e3d95644fa62e9dee11b224f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Mode: 0
-  ScreenBounds: {x: 0, y: 0, z: 0}
+  mode: 0
+  screenBounds: {x: 0, y: 0, z: 0}
   Building: 0
   Mechanic: 0
   Feeding: 0
@@ -7836,6 +7836,8 @@ MonoBehaviour:
   Prefab: 
   Selector: {fileID: 0}
   SelectedObject: {fileID: 0}
+  hintText: {fileID: 0}
+  textScript: {fileID: 0}
 --- !u!82 &519420034
 AudioSource:
   m_ObjectHideFlags: 0
@@ -10858,7 +10860,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 519420033}
-        m_TargetAssemblyTypeName: 
+        m_TargetAssemblyTypeName: PlayerControls, Assembly-CSharp
         m_MethodName: SetMode
         m_Mode: 3
         m_Arguments:
