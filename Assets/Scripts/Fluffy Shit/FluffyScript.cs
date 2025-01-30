@@ -120,10 +120,8 @@ public class FluffyScript : MonoBehaviour
         }
         if (Needs.AlicornGenes[0] == true && Needs.AlicornGenes[1] == true)
         {
-            bool Unicorn;
-            bool Pegasus;
-            Unicorn = false;
-            Pegasus = false;
+            bool Unicorn = false;
+            bool Pegasus = false;
             foreach (int gene in Needs.RaceGenes)
             {
                 if (gene == 1)
@@ -3080,6 +3078,68 @@ public class FluffyScript : MonoBehaviour
                 }
             }
         }
+    }
+    #endregion
+
+    #region Getters / setters for body parts
+
+    private Transform GetModelTransform()
+    {
+        return transform.GetChild(0);
+    }
+
+    public GameObject GetHead()
+    {
+       return GetModelTransform().GetChild(0).GetChild(0).gameObject;
+    }
+
+    public GameObject GetRightFrontLeg()
+    {
+        return GetModelTransform().GetChild(0).GetChild(1).gameObject;
+    }
+
+    public GameObject GetLeftFrontLeg()
+    {
+        return GetModelTransform().GetChild(0).GetChild(5).gameObject;
+    }
+
+    public GameObject GetRightRearLeg()
+    {
+        return GetModelTransform().GetChild(0).GetChild(3).gameObject;
+    }
+
+    public GameObject GetLeftRearLeg()
+    {
+        return GetModelTransform().GetChild(0).GetChild(4).gameObject;
+    }
+
+    public GameObject GetTail() {
+        return GetModelTransform().GetChild(0).GetChild(2).gameObject;
+    }
+
+    public GameObject GetTorso()
+    {
+        return GetModelTransform().GetChild(0).GetChild(6).gameObject;
+    }
+
+    public GameObject GetCutieMark()
+    {
+        return GetModelTransform().GetChild(0).GetChild(7).gameObject;
+    }
+
+    public GameObject GetWings()
+    {
+        return GetModelTransform().GetChild(0).GetChild(8).gameObject;
+    }
+
+    public GameObject GetBelly()
+    {
+        return GetModelTransform().GetChild(0).GetChild(9).gameObject;
+    }
+
+    public GameObject GetBreasts()
+    {
+        return GetModelTransform().GetChild(0).GetChild(10).gameObject;
     }
     #endregion
 }
