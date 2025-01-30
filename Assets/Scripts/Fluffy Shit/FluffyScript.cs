@@ -96,7 +96,7 @@ public class FluffyScript : MonoBehaviour
     {
         if (!LoadedIn)
         {
-            Needs.CutieMark = Random.ColorHSV();
+            Needs.CutieMarkColor = Random.ColorHSV();
             // These are floats, but Random.Range returns int!
             Needs.Morality = Random.Range(1, 101);
             Needs.Decency = Random.Range(1, 101);
@@ -105,7 +105,11 @@ public class FluffyScript : MonoBehaviour
             ID += 1;
             Needs.Sex = Random.Range(0, 2);
         }
+
         Mood = 100;
+        Needs.Health = 100;
+        Needs.Relationships = new List<Relationship>();
+
         float Value1;
         float Value2;
         Value1 = Needs.RaceGenes[0];
@@ -118,7 +122,7 @@ public class FluffyScript : MonoBehaviour
         {
             Needs.Race = Needs.RaceGenes[1];
         }
-        if (Needs.AlicornGenes[0] == true && Needs.AlicornGenes[1] == true)
+        if (Needs.AlicornGenes[0] && Needs.AlicornGenes[1])
         {
             bool Unicorn = false;
             bool Pegasus = false;
@@ -181,7 +185,7 @@ public class FluffyScript : MonoBehaviour
         {
             V = Value2;
         }
-        Needs.Base = Color.HSVToRGB(H, S, V);
+        Needs.BaseColor = Color.HSVToRGB(H, S, V);
 
         //mane
         Color.RGBToHSV(Needs.ManeGenes[0], out H1, out S1, out V1);
@@ -216,7 +220,7 @@ public class FluffyScript : MonoBehaviour
         {
             V = Value2;
         }
-        Needs.Mane = Color.HSVToRGB(H, S, V);
+        Needs.ManeColor = Color.HSVToRGB(H, S, V);
 
         //eyes
         Color.RGBToHSV(Needs.EyeGenes[0], out H1, out S1, out V1);
@@ -251,18 +255,18 @@ public class FluffyScript : MonoBehaviour
         {
             V = Value2;
         }
-        Needs.Eyes = Color.HSVToRGB(H, S, V);
+        Needs.EyeColor = Color.HSVToRGB(H, S, V);
 
 
         Value1 = Needs.HairGenes[0];
         Value2 = Needs.HairGenes[1];
         if (Value1 > Value2)
         {
-            Needs.Hair = Needs.HairGenes[0];
+            Needs.HairType = Needs.HairGenes[0];
         }
         else
         {
-            Needs.Hair = Needs.HairGenes[1];
+            Needs.HairType = Needs.HairGenes[1];
         }
 
         Value1 = Needs.SizeGenes[0] - 1;
@@ -281,47 +285,52 @@ public class FluffyScript : MonoBehaviour
         {
             if (child.GetComponent<SpriteRenderer>())
             {
+                // This part is referencing the game objects by their names to add the color,
+                // which makes changes to the prefab impossible.
+                // They should be using tags instead.
                 child.GetComponent<SpriteRenderer>().sortingOrder = ID;
                 if (child.name == "Base")
                 {
-                    child.GetComponent<SpriteRenderer>().color = Needs.Base;
+                    child.GetComponent<SpriteRenderer>().color = Needs.BaseColor;
                 }
                 else if (child.name == "Mane")
                 {
-                    child.GetComponent<SpriteRenderer>().color = Needs.Mane;
+                    child.GetComponent<SpriteRenderer>().color = Needs.ManeColor;
                 }
                 else if (child.name == "Eye")
                 {
-                    child.GetComponent<SpriteRenderer>().color = Needs.Eyes;
+                    child.GetComponent<SpriteRenderer>().color = Needs.EyeColor;
                 }
                 else if (child.name == "Cutie Mark")
                 {
-                    child.GetComponent<SpriteRenderer>().color = Needs.CutieMark;
+                    child.GetComponent<SpriteRenderer>().color = Needs.CutieMarkColor;
                 }
             }
         }
-        if (Needs.Race == 0)
+        if (Needs.Race == (int)Race.Earthie)
         {
-            transform.GetChild(0).GetChild(0).GetChild(8).gameObject.SetActive(false);
-            transform.GetChild(0).GetChild(0).GetChild(0).GetChild(6).gameObject.SetActive(false);
+            GetWings().SetActive(false);
+            GetHorn().SetActive(false);
         }
-        else if (Needs.Race == 1)
+        else if (Needs.Race == (int)Race.Pegasus)
         {
-            transform.GetChild(0).GetChild(0).GetChild(0).GetChild(6).gameObject.SetActive(false);
+            GetHorn().SetActive(false);
         }
-        else if (Needs.Race == 2)
+        else if (Needs.Race == (int)Race.Unicorn)
         {
-            transform.GetChild(0).GetChild(0).GetChild(8).gameObject.SetActive(false);
+            GetWings().SetActive(false);
         }
-        Needs.Health = 100;
-        Needs.Relationships = new List<Relationship>();
-        transform.GetChild(0).GetChild(0).GetChild(6).GetComponent<SpriteRenderer>().sprite = Resources.LoadAll<Sprite>("torso")[Needs.Hair + 1];
-        transform.GetChild(0).GetChild(0).GetChild(0).GetChild(3).GetComponent<SpriteRenderer>().sprite = Resources.LoadAll<Sprite>("mane")[Needs.Hair + (3 * Needs.Sex)];
-        transform.GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetComponent<SpriteRenderer>().sprite = Resources.LoadAll<Sprite>("tail")[Needs.Hair];
+        // Torso matches the next position of the hairtype sprites
+        GetTorso().GetComponent<SpriteRenderer>().sprite = Resources.LoadAll<Sprite>("torso")[Needs.HairType + 1];
+        transform.GetChild(0).GetChild(0).GetChild(0).GetChild(3).GetComponent<SpriteRenderer>().sprite = Resources.LoadAll<Sprite>("mane")[Needs.HairType + (3 * Needs.Sex)];
+        // tail sprite matches the hairtype
+        transform.GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetComponent<SpriteRenderer>().sprite = Resources.LoadAll<Sprite>("tail")[Needs.HairType];
+        // only adult fluffies have cutie marks
         if (Needs.Age >= 600)
         {
             transform.GetChild(0).GetChild(0).GetChild(7).gameObject.SetActive(true);
         }
+        // fluffies grow linear to their age, but are at least 2/5ths of their genetically predetermined size.
         Size = (0.4f + (0.6f * (Mathf.Clamp(Needs.Age / 600, 0, 1)))) * Needs.Size;
         SetDirection(Random.Range(0, 2));
         LimbNumber = 4;
@@ -377,7 +386,7 @@ public class FluffyScript : MonoBehaviour
             LostLimb = transform.GetChild(0).GetChild(0).GetChild(7).gameObject;
             Destroy(LostLimb.transform.GetChild(0).gameObject);
             LostLimb.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("cutiescar");
-            LostLimb.GetComponent<SpriteRenderer>().color = Needs.Base;
+            LostLimb.GetComponent<SpriteRenderer>().color = Needs.BaseColor;
         }
         if (Needs.NoWings)
         {
@@ -395,7 +404,7 @@ public class FluffyScript : MonoBehaviour
         {
             LostLimb = transform.GetChild(0).GetChild(0).GetChild(0).GetChild(4).gameObject;
             Destroy(LostLimb.transform.GetChild(0).gameObject);
-            LostLimb.GetComponent<SpriteRenderer>().color = Needs.Base;
+            LostLimb.GetComponent<SpriteRenderer>().color = Needs.BaseColor;
             LostLimb.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("missingeye");
         }
     }
@@ -500,7 +509,8 @@ public class FluffyScript : MonoBehaviour
                             else if (Motivator == 3)
                             {
                                 if (hit.GetComponent<FluffyVariables>().Sex == 1)
-                                {   {
+                                {
+                                    {
                                         if (hit.GetComponent<FluffyVariables>().Age >= Mathf.Clamp(600 * (Needs.Morality / 80), 0, 600))
                                         {
                                             Distance = (hit.transform.position - transform.position).magnitude;
@@ -578,7 +588,8 @@ public class FluffyScript : MonoBehaviour
                     else if (Needs.Sexuality >= 30)
                     {
                         Message("<name> wan' pway wif pwetty speshuw fwend!", null, null, "fwuffy");
-                    } else
+                    }
+                    else
                     {
                         Message("<name> wan' hab bestest speshuw fwend an' bestest babbehs!", null, null, "fwuffy");
                     }
@@ -934,12 +945,12 @@ public class FluffyScript : MonoBehaviour
         Target = null;
         if (Needs.Pregnant)
         {
-        int Miscarriage = Random.Range(0, 10);
-        if (Miscarriage == 0)
-        {
-            Needs.Miscarrying = true;
+            int Miscarriage = Random.Range(0, 10);
+            if (Miscarriage == 0)
+            {
+                Needs.Miscarrying = true;
+            }
         }
-    }
         //Rapey submissive response overides everything else.
         if (Submissive)
         {
@@ -981,7 +992,8 @@ public class FluffyScript : MonoBehaviour
                                     Mood -= 60;
                                     PlaySound("scree", true);
                                     Message("NU WAN'! SCREEEEEEEEE!", null, null, null);
-                                } else
+                                }
+                                else
                                 {
                                     Mood -= 70;
                                     PlaySound("scree", true);
@@ -1020,7 +1032,8 @@ public class FluffyScript : MonoBehaviour
                     {
                         PlaySound("happytalk", true);
                         Message("gud feews!", null, null, null);
-                    } else
+                    }
+                    else
                     {
                         PlaySound("happytalk", true);
                         Message("<name> gon' hab bestest BABBEHS!", null, null, null);
@@ -1194,7 +1207,7 @@ public class FluffyScript : MonoBehaviour
             LostLimb = transform.GetChild(0).GetChild(0).GetChild(7).gameObject;
             Destroy(LostLimb.transform.GetChild(0).gameObject);
             LostLimb.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("cutiescar");
-            LostLimb.GetComponent<SpriteRenderer>().color = Needs.Base;
+            LostLimb.GetComponent<SpriteRenderer>().color = Needs.BaseColor;
             Needs.NoCutieMark = true;
         }
         else if (Limb == 9)
@@ -1218,7 +1231,7 @@ public class FluffyScript : MonoBehaviour
             // The Shine sprite (child of the Fluffy GameObject at position 0,0,0,5) overlaps the "missingeye" sprite when destroyed.
             // I'm unsure if you can just destroy this like the Eye GameObject, so I'm just setting the Shine GameObject as inactive for now.
             transform.GetChild(0).GetChild(0).GetChild(0).GetChild(5).gameObject.SetActive(false);
-            LostLimb.GetComponent<SpriteRenderer>().color = Needs.Base;
+            LostLimb.GetComponent<SpriteRenderer>().color = Needs.BaseColor;
             LostLimb.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("missingeye");
             Needs.NoEyes = true;
         }
@@ -1245,21 +1258,21 @@ public class FluffyScript : MonoBehaviour
             Destroy(LimbLost.transform.Find("Dismember").gameObject);
             if (Limb == 0)
             {
-                LimbLost.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = Resources.LoadAll<Sprite>("tail")[Needs.Hair];
+                LimbLost.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = Resources.LoadAll<Sprite>("tail")[Needs.HairType];
             }
             foreach (GameObject child in Descendants)
             {
                 if (child.name == "Base")
                 {
-                    child.GetComponent<SpriteRenderer>().color = Needs.Base;
+                    child.GetComponent<SpriteRenderer>().color = Needs.BaseColor;
                 }
                 else if (child.name == "Mane")
                 {
-                    child.GetComponent<SpriteRenderer>().color = Needs.Mane;
+                    child.GetComponent<SpriteRenderer>().color = Needs.ManeColor;
                 }
                 else if (child.name == "Cutie Mark")
                 {
-                    child.GetComponent<SpriteRenderer>().color = Needs.CutieMark;
+                    child.GetComponent<SpriteRenderer>().color = Needs.CutieMarkColor;
                     // A fluffy younger than 600 seconds cannot have a cutie mark after getting its cutie mark spot cut...does this make sense? 
                     if (Needs.Age < 600)
                     {
@@ -1308,19 +1321,19 @@ public class FluffyScript : MonoBehaviour
             }
             if (child.name == "Base")
             {
-                child.GetComponent<SpriteRenderer>().color = Needs.Base;
+                child.GetComponent<SpriteRenderer>().color = Needs.BaseColor;
             }
             else if (child.name == "Mane")
             {
-                child.GetComponent<SpriteRenderer>().color = Needs.Mane;
+                child.GetComponent<SpriteRenderer>().color = Needs.ManeColor;
             }
             else if (child.name == "Eye")
             {
-                child.GetComponent<SpriteRenderer>().color = Needs.Eyes;
+                child.GetComponent<SpriteRenderer>().color = Needs.EyeColor;
             }
             else if (child.name == "Cutie Mark")
             {
-                child.GetComponent<SpriteRenderer>().color = Needs.CutieMark;
+                child.GetComponent<SpriteRenderer>().color = Needs.CutieMarkColor;
                 if (Needs.Age < 600)
                 {
                     child.SetActive(false);
@@ -1351,7 +1364,7 @@ public class FluffyScript : MonoBehaviour
         //apply mutilations
         if (Needs.NoEyes)
         {
-            Corpse.transform.GetChild(0).GetChild(10).GetChild(8).GetComponent<SpriteRenderer>().color = Needs.Base;
+            Corpse.transform.GetChild(0).GetChild(10).GetChild(8).GetComponent<SpriteRenderer>().color = Needs.BaseColor;
             //TODO: This line is an incomplete remnant by the original creator. It's probably supposed to set the eye of the fluffy corpse into place, but needs more research/testing to fix.
             //Corpse.transform.GetChild(0).GetChild(10).GetChild(8).position +=
         }
@@ -1413,7 +1426,7 @@ public class FluffyScript : MonoBehaviour
         }
         if (Needs.NoCutieMark)
         {
-            Corpse.transform.GetChild(0).GetChild(4).GetComponent<SpriteRenderer>().color = Needs.Base;
+            Corpse.transform.GetChild(0).GetChild(4).GetComponent<SpriteRenderer>().color = Needs.BaseColor;
             Corpse.transform.GetChild(0).GetChild(4).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("cutiescar");
         }
         if (Needs.NoTail)
@@ -1859,7 +1872,7 @@ public class FluffyScript : MonoBehaviour
                                                     OtherFluffy.PlaySound("scree", true);
                                                     OtherFluffy.FluffyEvent(0, 0, null, 5, "Stand", 2, 4, false);
                                                 }
-                                                    OtherFluffy.Mood = 0;
+                                                OtherFluffy.Mood = 0;
                                             }
                                             else if (OtherFluffy.Needs.IsCannibal == false)
                                             {
@@ -2256,11 +2269,14 @@ public class FluffyScript : MonoBehaviour
             if (Fluffy.GetComponent<FluffyVariables>().NoFrontLegR && Fluffy.GetComponent<FluffyVariables>().NoFrontLegL)
             {
                 Suckle(Fluffy);
-            } else
+            }
+            else
             {
                 Fluffy.GetComponent<FluffyScript>().HitAction(gameObject);
             }
-            } else {
+        }
+        else
+        {
             if (Needs.Race == 3 && Fluffy.GetComponent<FluffyVariables>().Race != 3 && !Fluffy.GetComponent<FluffyVariables>().NoEyes && !Needs.NoHorn && !Needs.NoWings)
             {
                 Fluffy.GetComponent<FluffyScript>().PlaySound("scree", true);
@@ -3081,7 +3097,8 @@ public class FluffyScript : MonoBehaviour
     }
     #endregion
 
-    #region Getters / setters for body parts
+    #region Getters for body parts
+    // To be able to actually refactor the code without breaking it, the getters are referencing the hierarchy order in the fluffy prefab.
 
     private Transform GetModelTransform()
     {
@@ -3090,7 +3107,52 @@ public class FluffyScript : MonoBehaviour
 
     public GameObject GetHead()
     {
-       return GetModelTransform().GetChild(0).GetChild(0).gameObject;
+        return GetModelTransform().GetChild(0).GetChild(0).gameObject;
+    }
+
+    public GameObject GetRightEar()
+    {
+        return GetHead().transform.GetChild(0).gameObject;
+    }
+
+    public GameObject GetLeftEar()
+    {
+        return GetHead().transform.GetChild(1).gameObject;
+    }
+
+    public GameObject GetFace()
+    {
+        return GetHead().transform.GetChild(2).gameObject;
+    }
+
+    public GameObject GetMane()
+    {
+        return GetHead().transform.GetChild(3).gameObject;
+    }
+
+    public GameObject GetEye()
+    {
+        return GetHead().transform.GetChild(4).gameObject;
+    }
+
+    /** 
+        <summary>
+        The "shine" are highlights added over the eyes and mouth.
+        </summary>
+    */
+    public GameObject GetShine()
+    {
+        return GetHead().transform.GetChild(5).gameObject;
+    }
+
+    public GameObject GetHorn()
+    {
+        return GetHead().transform.GetChild(6).gameObject;
+    }
+
+    public GameObject GetEyebrow()
+    {
+        return GetHead().transform.GetChild(7).gameObject;
     }
 
     public GameObject GetRightFrontLeg()
@@ -3113,7 +3175,8 @@ public class FluffyScript : MonoBehaviour
         return GetModelTransform().GetChild(0).GetChild(4).gameObject;
     }
 
-    public GameObject GetTail() {
+    public GameObject GetTail()
+    {
         return GetModelTransform().GetChild(0).GetChild(2).gameObject;
     }
 
