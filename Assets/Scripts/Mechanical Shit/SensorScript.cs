@@ -117,7 +117,7 @@ public class SensorScript : MonoBehaviour {
                         }
                         if (FluffLength > -1)
                         {
-                            if (Fluffy.Hair == FluffLength)
+                            if (Fluffy.HairType == FluffLength)
                             {
                                 Output.Signal = true;
                                 return;

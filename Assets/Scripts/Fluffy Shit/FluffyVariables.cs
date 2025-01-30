@@ -48,11 +48,11 @@ public class FluffyVariables : MonoBehaviour {
     public FluffyVariables FatherGenes;
 
     // This is confusing: of course these are variables are of type Color, but this can get lead to errors!
-    public Color Base;
-    public Color Mane;
-    public Color Eyes;
-    public Color CutieMark;
-    public int Hair;
+    public Color BaseColor;
+    public Color ManeColor;
+    public Color EyeColor;
+    public Color CutieMarkColor;
+    public int HairType;
     public float Size;
 
     public List<Relationship> Relationships;

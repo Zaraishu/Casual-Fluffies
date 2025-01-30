@@ -61,7 +61,7 @@ public class FluffyBusinessScript : MonoBehaviour
         float S;
         float V;
         bool EndRed = false;
-        Color.RGBToHSV(Fluffy.Base, out H, out S, out V);
+        Color.RGBToHSV(Fluffy.BaseColor, out H, out S, out V);
         H *= 360;
         if (H >= 345)
         {

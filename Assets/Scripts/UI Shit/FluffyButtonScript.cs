@@ -10,9 +10,9 @@ public class FluffyButtonScript : MonoBehaviour {
 	void Start () {
         Menu = GameObject.Find("Fluffy Business Menu");
         Fluffy = GetComponent<FluffyVariables>();
-        GetComponent<Image>().color = Fluffy.Base;
-        transform.GetChild(0).GetComponent<Image>().color = Fluffy.Mane;
-        transform.GetChild(1).GetComponent<Image>().color = Fluffy.Eyes;
+        GetComponent<Image>().color = Fluffy.BaseColor;
+        transform.GetChild(0).GetComponent<Image>().color = Fluffy.ManeColor;
+        transform.GetChild(1).GetComponent<Image>().color = Fluffy.EyeColor;
     }
 
     // Update is called once per frame
@@ -46,11 +46,11 @@ public class FluffyButtonScript : MonoBehaviour {
         }
         #endregion
         ImageBox.transform.GetChild(0).gameObject.SetActive(true);
-        ImageBox.transform.GetChild(0).GetComponent<Image>().color = Fluffy.Base;
+        ImageBox.transform.GetChild(0).GetComponent<Image>().color = Fluffy.BaseColor;
         ImageBox.transform.GetChild(1).gameObject.SetActive(true);
-        ImageBox.transform.GetChild(1).GetComponent<Image>().color = Fluffy.Mane;
+        ImageBox.transform.GetChild(1).GetComponent<Image>().color = Fluffy.ManeColor;
         ImageBox.transform.GetChild(2).gameObject.SetActive(true);
-        ImageBox.transform.GetChild(2).GetComponent<Image>().color = Fluffy.Eyes;
+        ImageBox.transform.GetChild(2).GetComponent<Image>().color = Fluffy.EyeColor;
         Menu.GetComponent<FluffyBusinessScript>().SelectedFluffy = gameObject;
     }
 }
