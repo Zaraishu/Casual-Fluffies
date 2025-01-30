@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TextScript : MonoBehaviour
+public class HintTextScript : MonoBehaviour
 {
     public void Fade(string text)
     {

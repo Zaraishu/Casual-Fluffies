@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/**
+ * This class contains every attribute a fluffy can have.
+ */
+// Why is this a MonoBehaviour if it works as data object? Remove.
+// TODO: separate attributes, needs and genes.
 public class FluffyVariables : MonoBehaviour {
 
     // Can the whole class be implemented as a ScriptObject?
@@ -25,6 +31,7 @@ public class FluffyVariables : MonoBehaviour {
 
     public float Gestation;
     public bool Pregnant;
+    // The number of foals during a single pregnancy.
     public int FoalNumber;
     public bool Miscarrying;
 
@@ -35,7 +42,7 @@ public class FluffyVariables : MonoBehaviour {
     public int ID;
     public string Description;
 
-    // Should be an enum instead
+    // Should be checked via a property method.
     public int Race;
 
     public FluffyVariables FatherGenes;
@@ -51,6 +58,7 @@ public class FluffyVariables : MonoBehaviour {
     public List<Relationship> Relationships;
 
     // Missing limbs are tracked by using bool variables...is there another way to keep track of missing limbs instead?
+    // Actually, yes: have methods with boolean return values checking for the existence or state of the limb.
     public bool NoEyes;
 
     public bool NoEarR;

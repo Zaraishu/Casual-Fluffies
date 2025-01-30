@@ -13,6 +13,7 @@ public class FluffyScript : MonoBehaviour
     int Action;
     public float Size;
     public GameObject Target;
+    // That's not so much needs as every attribute a fluffy has!
     public FluffyVariables Needs;
     string TargetTag;
     public int Motivator;
@@ -27,6 +28,7 @@ public class FluffyScript : MonoBehaviour
     public int LimbNumber;
 
     //This variable will stop automatic personality assignment in Start. Use it when loading a fluffy from a pre-made file.
+    // Zaraishu: then don't use it as a field, but in a constructor method?
     public bool LoadedIn;
     #endregion
 
@@ -95,6 +97,7 @@ public class FluffyScript : MonoBehaviour
         if (!LoadedIn)
         {
             Needs.CutieMark = Random.ColorHSV();
+            // These are floats, but Random.Range returns int!
             Needs.Morality = Random.Range(1, 101);
             Needs.Decency = Random.Range(1, 101);
             Needs.Sexuality = Random.Range(1, 101);
@@ -3068,7 +3071,7 @@ public class FluffyScript : MonoBehaviour
                         }
                     }
                 }
-                // TODO: The else nested at the wrong place and will never fire for a fluffy without ears!!
+                // TODO: The else statement is nested at the wrong place and will never fire for a fluffy without ears!!
                 else
                 {
                     Fluffy.PlaySound("sadtalk", true);

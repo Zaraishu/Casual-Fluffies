@@ -4,6 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Tilemaps;
 
+
+/**
+ * <summary>
+ * Main class for handling player inputs.
+ * </summary>
+ */
 public class PlayerControls : MonoBehaviour
 {
 
@@ -37,8 +43,7 @@ public class PlayerControls : MonoBehaviour
 
     public GameObject SelectedObject;
 
-    public Text hintText;
-    public TextScript textScript;
+    public HintTextScript hintTextScript;
 
     public void GainMoney(float GainedMoney)
     {
@@ -57,39 +62,39 @@ public class PlayerControls : MonoBehaviour
         switch ((ToolMode) mode)
         {
             case ToolMode.Grab:
-                textScript.Fade("Click and drag to pick up fluffies, food bowls, and other objects. Some static objects can be interacted with as well.");
+                hintTextScript.Fade("Click and drag to pick up fluffies, food bowls, and other objects. Some static objects can be interacted with as well.");
                 break;
 
             case ToolMode.Feed:
-                textScript.Fade("Use the feeding menu to fill bowls with different foods.");
+                hintTextScript.Fade("Use the feeding menu to fill bowls with different foods.");
                 break;
 
             case ToolMode.CleanSpills:
-                textScript.Fade("Click and drag over spills, poop, and other messes to clean them up.");
+                hintTextScript.Fade("Click and drag over spills, poop, and other messes to clean them up.");
                 break;
 
             case ToolMode.Cut:
-                textScript.Fade("Click on fluffies' body parts to cut them off.");
+                hintTextScript.Fade("Click on fluffies' body parts to cut them off.");
                 break;
 
             case ToolMode.Trash:
-                textScript.Fade("Click and drag over dead fluffies to remove them.");
+                hintTextScript.Fade("Click and drag over dead fluffies to remove them.");
                 break;
 
             case ToolMode.Inspect:
-                textScript.Fade("Click on fluffies to view their age and edit their names and descriptions, and press escape to close the editing window. Some other objects have statistics that can be viewed and edited as well.");
+                hintTextScript.Fade("Click on fluffies to view their age and edit their names and descriptions, and press escape to close the editing window. Some other objects have statistics that can be viewed and edited as well.");
                 break;
 
             case ToolMode.Build:
-                textScript.Fade("Use the building menu to build structures and machines.");
+                hintTextScript.Fade("Use the building menu to build structures and machines.");
                 break;
 
             case ToolMode.Inventory:
-                textScript.Fade("Use the inventory menu to place items.");
+                hintTextScript.Fade("Use the inventory menu to place items.");
                 break;
 
             case ToolMode.Business:
-                textScript.Fade("Use the Fluffy Business menu to perform various fluffy-related tasks.");
+                hintTextScript.Fade("Use the Fluffy Business menu to perform various fluffy-related tasks.");
                 break;
         }
 
@@ -202,19 +207,18 @@ public class PlayerControls : MonoBehaviour
     {
         Cursor.SetCursor(Resources.Load("mouse") as Texture2D, new Vector2(0, 0), CursorMode.Auto);
         Screen.fullScreen = false;
-        hintText = gameObject.transform.Find("Interface").Find("Text").GetComponent<Text>();
-        textScript = gameObject.transform.Find("Interface").Find("Text").GetComponent<TextScript>();
+        hintTextScript = gameObject.transform.Find("Interface").Find("Text").GetComponent<HintTextScript>();
 
         if (Screen.currentResolution.height < 768)
         {
             Screen.SetResolution(512, 384, false);
 
-            textScript.Fade("Press space to spawn a random fluffy. Instructions for various modes of interaction can be seen by clicking their icons on the tray. Have fun! \n \nNOTE: Your screen resolution is too small for the full-sized window, so the game has launched in Potato Mode. That's why it looks like shit.");
+            hintTextScript.Fade("Press space to spawn a random fluffy. Instructions for various modes of interaction can be seen by clicking their icons on the tray. Have fun! \n \nNOTE: Your screen resolution is too small for the full-sized window, so the game has launched in Potato Mode. That's why it looks like shit.");
         }
         else
         {
             Screen.SetResolution(1024, 768, false);
-            textScript.Fade("Press space to spawn a random fluffy. Instructions for various modes of interaction can be seen by clicking their icons on the tray. Have fun!");
+            hintTextScript.Fade("Press space to spawn a random fluffy. Instructions for various modes of interaction can be seen by clicking their icons on the tray. Have fun!");
         }
         Data = gameObject.transform.GetChild(2).gameObject;
         Selector = GameObject.Find("Selector");
