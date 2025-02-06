@@ -1,92 +1,94 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class AnimEvents : MonoBehaviour {
+// Formerly AnimEvents. Was probably used to animate different events, but only the birth was finished.
+public class BirthEvent : MonoBehaviour {
 
-    GameObject Head;
-    GameObject Eye;
-    GameObject Shine;
-    GameObject Eyebrow;
-    Sprite[] Faces;
-    Sprite[] Eyes;
-    Sprite[] Shines;
-    Sprite[] Eyebrows;
-    GameObject FluffyPrefab;
-    GameObject Fluffy;
-    FluffyVariables Needs;
+    GameObject head;
+    GameObject eye;
+    GameObject shine;
+    GameObject eyebrow;
+    Sprite[] faceSprites;
+    Sprite[] eyeSprites;
+    Sprite[] shineSprites;
+    Sprite[] eyebrowSprites;
+    GameObject fluffyPrefab;
+    GameObject newFoal;
+    FluffyScript motherScript;
+    FluffyVariables motherNeeds;
 
     private void Start()
     {
-        Needs = gameObject.transform.parent.GetComponent<FluffyVariables>();
-        Faces = Resources.LoadAll<Sprite>("face");
-        Eyes = Resources.LoadAll<Sprite>("eye");
-        Shines = Resources.LoadAll<Sprite>("shine");
-        Eyebrows = Resources.LoadAll<Sprite>("eyebrows");
-        Head = gameObject.transform.GetChild(0).GetChild(0).GetChild(2).gameObject;
-        Eye = gameObject.transform.GetChild(0).GetChild(0).GetChild(4).gameObject;
-        Shine = gameObject.transform.GetChild(0).GetChild(0).GetChild(5).gameObject;
-        Eyebrow = gameObject.transform.GetChild(0).GetChild(0).GetChild(7).gameObject;
-        FluffyPrefab = (GameObject)Resources.Load("Fluffy");
+        motherScript = gameObject.transform.parent.GetComponent<FluffyScript>();
+        motherNeeds = motherScript.Needs;
+        faceSprites = Resources.LoadAll<Sprite>("face");
+        eyeSprites = Resources.LoadAll<Sprite>("eye");
+        shineSprites = Resources.LoadAll<Sprite>("shine");
+        eyebrowSprites = Resources.LoadAll<Sprite>("eyebrows");
+        head = motherScript.GetHead();
+        eye = motherScript.GetEye();
+        shine = motherScript.GetShine();
+        eyebrow = motherScript.GetEyebrow();
+        fluffyPrefab = (GameObject)Resources.Load("Fluffy");
     }
 
     public void SetFace(int Face)
     {
-        Head.GetComponent<SpriteRenderer>().sprite = (Sprite)Faces[Face];
-        Shine.GetComponent<SpriteRenderer>().sprite = (Sprite)Shines[Face];
-        Eyebrow.GetComponent<SpriteRenderer>().sprite = (Sprite)Eyebrows[Face];
-        if (!gameObject.transform.parent.GetComponent<FluffyVariables>().NoEyes)
+        head.transform.GetChild(2).GetComponent<SpriteRenderer>().sprite = (Sprite)faceSprites[Face];
+        shine.GetComponent<SpriteRenderer>().sprite = (Sprite)shineSprites[Face];
+        eyebrow.GetComponent<SpriteRenderer>().sprite = (Sprite)eyebrowSprites[Face];
+        if (!motherNeeds.NoEyes)
         {
-            Eye.GetComponent<SpriteRenderer>().sprite = (Sprite)Eyes[Face];
+            eye.GetComponent<SpriteRenderer>().sprite = (Sprite)eyeSprites[Face];
         }
     }
 
     public IEnumerator GiveBirth()
     {
-            Fluffy = Instantiate(FluffyPrefab);
-        FluffyVariables FluffyNeeds = Fluffy.GetComponent<FluffyVariables>();
+        newFoal = Instantiate(fluffyPrefab);
+        FluffyScript foalScript = newFoal.GetComponent<FluffyScript>();
 
         int Race1;
         int Race2;
         //race
         if (Random.Range(0, 2) == 0)
         {
-            Race1 = Needs.RaceGenes[0];
+            Race1 = motherNeeds.RaceGenes[0];
         }
         else
         {
-            Race1 = Needs.RaceGenes[1];
+            Race1 = motherNeeds.RaceGenes[1];
         }
         if (Random.Range(0, 2) == 0)
         {
-            Race2 = Needs.FatherGenes.RaceGenes[0];
+            Race2 = motherNeeds.FatherGenes.RaceGenes[0];
         }
         else
         {
-            Race2 = Needs.FatherGenes.RaceGenes[1];
+            Race2 = motherNeeds.FatherGenes.RaceGenes[1];
         }
-        FluffyNeeds.gameObject.GetComponent<FluffyScript>().SetRace(Race1, Race2);
+        foalScript.SetRace(Race1, Race2);
 
         bool Alicorn1;
         bool Alicorn2;
         //alicorn
         if (Random.Range(0, 2) == 0)
         {
-            Alicorn1 = Needs.AlicornGenes[0];
+            Alicorn1 = motherNeeds.AlicornGenes[0];
         }
         else
         {
-            Alicorn1 = Needs.AlicornGenes[1];
+            Alicorn1 = motherNeeds.AlicornGenes[1];
         }
         if (Random.Range(0, 2) == 0)
         {
-            Alicorn2 = Needs.FatherGenes.AlicornGenes[0];
+            Alicorn2 = motherNeeds.FatherGenes.AlicornGenes[0];
         }
         else
         {
-            Alicorn2 = Needs.FatherGenes.AlicornGenes[1];
+            Alicorn2 = motherNeeds.FatherGenes.AlicornGenes[1];
         }
-        FluffyNeeds.gameObject.GetComponent<FluffyScript>().SetAlicorn(Alicorn1, Alicorn2);
+        foalScript.SetAlicorn(Alicorn1, Alicorn2);
 
         float H1;
         float S1;
@@ -101,8 +103,8 @@ public class AnimEvents : MonoBehaviour {
         Color Color1;
         Color Color2;
         //base
-        Color.RGBToHSV(Needs.BaseGenes[0], out H1, out S1, out V1);
-        Color.RGBToHSV(Needs.BaseGenes[1], out H2, out S2, out V2);
+        Color.RGBToHSV(motherNeeds.BaseGenes[0], out H1, out S1, out V1);
+        Color.RGBToHSV(motherNeeds.BaseGenes[1], out H2, out S2, out V2);
         if (Random.Range(0, 2) == 0)
         {
             H = H1;
@@ -129,8 +131,8 @@ public class AnimEvents : MonoBehaviour {
         }
         Color1 = Color.HSVToRGB(H, S, V);
 
-        Color.RGBToHSV(Needs.FatherGenes.BaseGenes[0], out H1, out S1, out V1);
-        Color.RGBToHSV(Needs.FatherGenes.BaseGenes[1], out H2, out S2, out V2);
+        Color.RGBToHSV(motherNeeds.FatherGenes.BaseGenes[0], out H1, out S1, out V1);
+        Color.RGBToHSV(motherNeeds.FatherGenes.BaseGenes[1], out H2, out S2, out V2);
         if (Random.Range(0, 2) == 0)
         {
             H = H1;
@@ -156,11 +158,11 @@ public class AnimEvents : MonoBehaviour {
             V = V2;
         }
         Color2 = Color.HSVToRGB(H, S, V);
-        FluffyNeeds.gameObject.GetComponent<FluffyScript>().SetBase(Color1, Color2);
+        foalScript.SetBase(Color1, Color2);
 
         //mane
-        Color.RGBToHSV(Needs.ManeGenes[0], out H1, out S1, out V1);
-        Color.RGBToHSV(Needs.ManeGenes[1], out H2, out S2, out V2);
+        Color.RGBToHSV(motherNeeds.ManeGenes[0], out H1, out S1, out V1);
+        Color.RGBToHSV(motherNeeds.ManeGenes[1], out H2, out S2, out V2);
         if (Random.Range(0, 2) == 0)
         {
             H = H1;
@@ -187,8 +189,8 @@ public class AnimEvents : MonoBehaviour {
         }
         Color1 = Color.HSVToRGB(H, S, V);
 
-        Color.RGBToHSV(Needs.FatherGenes.ManeGenes[0], out H1, out S1, out V1);
-        Color.RGBToHSV(Needs.FatherGenes.ManeGenes[1], out H2, out S2, out V2);
+        Color.RGBToHSV(motherNeeds.FatherGenes.ManeGenes[0], out H1, out S1, out V1);
+        Color.RGBToHSV(motherNeeds.FatherGenes.ManeGenes[1], out H2, out S2, out V2);
         if (Random.Range(0, 2) == 0)
         {
             H = H1;
@@ -214,11 +216,11 @@ public class AnimEvents : MonoBehaviour {
             V = V2;
         }
         Color2 = Color.HSVToRGB(H, S, V);
-        FluffyNeeds.gameObject.GetComponent<FluffyScript>().SetMane(Color1, Color2);
+        foalScript.SetMane(Color1, Color2);
 
         //eyes
-        Color.RGBToHSV(Needs.EyeGenes[0], out H1, out S1, out V1);
-        Color.RGBToHSV(Needs.EyeGenes[1], out H2, out S2, out V2);
+        Color.RGBToHSV(motherNeeds.EyeGenes[0], out H1, out S1, out V1);
+        Color.RGBToHSV(motherNeeds.EyeGenes[1], out H2, out S2, out V2);
         if (Random.Range(0, 2) == 0)
         {
             H = H1;
@@ -245,8 +247,8 @@ public class AnimEvents : MonoBehaviour {
         }
         Color1 = Color.HSVToRGB(H, S, V);
 
-        Color.RGBToHSV(Needs.FatherGenes.EyeGenes[0], out H1, out S1, out V1);
-        Color.RGBToHSV(Needs.FatherGenes.EyeGenes[1], out H2, out S2, out V2);
+        Color.RGBToHSV(motherNeeds.FatherGenes.EyeGenes[0], out H1, out S1, out V1);
+        Color.RGBToHSV(motherNeeds.FatherGenes.EyeGenes[1], out H2, out S2, out V2);
         if (Random.Range(0, 2) == 0)
         {
             H = H1;
@@ -272,64 +274,64 @@ public class AnimEvents : MonoBehaviour {
             V = V2;
         }
         Color2 = Color.HSVToRGB(H, S, V);
-        FluffyNeeds.gameObject.GetComponent<FluffyScript>().SetEyes(Color1, Color2);
+        foalScript.SetEyes(Color1, Color2);
 
         int Hair1;
         int Hair2;
         //hair
         if (Random.Range(0, 2) == 0)
         {
-            Hair1 = Needs.HairGenes[0];
+            Hair1 = motherNeeds.HairGenes[0];
         }
         else
         {
-            Hair1 = Needs.HairGenes[1];
+            Hair1 = motherNeeds.HairGenes[1];
         }
         if (Random.Range(0, 2) == 0)
         {
-            Hair2 = Needs.FatherGenes.HairGenes[0];
+            Hair2 = motherNeeds.FatherGenes.HairGenes[0];
         }
         else
         {
-            Hair2 = Needs.FatherGenes.HairGenes[1];
+            Hair2 = motherNeeds.FatherGenes.HairGenes[1];
         }
-        FluffyNeeds.gameObject.GetComponent<FluffyScript>().SetHair(Hair1, Hair2);
+        foalScript.SetHair(Hair1, Hair2);
 
         float Size1;
         float Size2;
         //size
         if (Random.Range(0, 2) == 0)
         {
-            Size1 = Needs.SizeGenes[0];
+            Size1 = motherNeeds.SizeGenes[0];
         }
         else
         {
-            Size1 = Needs.SizeGenes[1];
+            Size1 = motherNeeds.SizeGenes[1];
         }
         if (Random.Range(0, 2) == 0)
         {
-            Size2 = Needs.FatherGenes.SizeGenes[0];
+            Size2 = motherNeeds.FatherGenes.SizeGenes[0];
         }
         else
         {
-            Size2 = Needs.FatherGenes.SizeGenes[1];
+            Size2 = motherNeeds.FatherGenes.SizeGenes[1];
         }
-        FluffyNeeds.gameObject.GetComponent<FluffyScript>().SetSize(Size1, Size2);
+        foalScript.SetSize(Size1, Size2);
 
 
-        Fluffy.transform.position = gameObject.transform.parent.position;
+        newFoal.transform.position = gameObject.transform.parent.position;
         int Identifier = 0;
         bool HasPegasus = false;
         bool HasUnicorn = false;
         bool Alicorn = false;
-        if (Fluffy.GetComponent<FluffyVariables>().AlicornGenes[0] == true && Fluffy.GetComponent<FluffyVariables>().AlicornGenes[1] == true)
+        if (newFoal.GetComponent<FluffyVariables>().AlicornGenes[0] == true && newFoal.GetComponent<FluffyVariables>().AlicornGenes[1] == true)
         {
             Alicorn = true;
-            if (Fluffy.GetComponent<FluffyVariables>().RaceGenes[0] == 1 || Fluffy.GetComponent<FluffyVariables>().RaceGenes[1] == 1)
+            if (newFoal.GetComponent<FluffyVariables>().RaceGenes[0] == 1 || newFoal.GetComponent<FluffyVariables>().RaceGenes[1] == 1)
             {
                 HasPegasus = true;
             }
-            if (Fluffy.GetComponent<FluffyVariables>().RaceGenes[0] == 2 || Fluffy.GetComponent<FluffyVariables>().RaceGenes[1] == 2)
+            if (newFoal.GetComponent<FluffyVariables>().RaceGenes[0] == 2 || newFoal.GetComponent<FluffyVariables>().RaceGenes[1] == 2)
             {
                 HasUnicorn = true;
             }
@@ -340,20 +342,20 @@ public class AnimEvents : MonoBehaviour {
         {
             if (HasPegasus == false || HasUnicorn == false)
             {
-                Identifier = FluffyNeeds.ID;
-                Fluffy.GetComponent<FluffyScript>().Die();
+                Identifier = foalScript.Needs.ID;
+                newFoal.GetComponent<FluffyScript>().Die();
                 transform.parent.GetComponent<FluffyVariables>().Health -= 25;
                 transform.parent.GetComponent<FluffyScript>().PlaySound("scree", true);
                 transform.parent.GetComponent<FluffyScript>().Message("SCREEEEEEEEEEEE!", null, null, "fwuffy");
                 transform.parent.GetComponent<FluffyScript>().Bleed();
             }
         }
-        if (Fluffy != null)
+        if (newFoal != null)
         {
             Bond = new Relationship
             {
-                FluffyID = FluffyNeeds.ID,
-                Fluffy = FluffyNeeds.gameObject,
+                FluffyID = foalScript.Needs.ID,
+                Fluffy = newFoal,
                 Love = 25,
                 Protectiveness = 25,
                 IsChild = true
@@ -369,6 +371,6 @@ public class AnimEvents : MonoBehaviour {
             };
         }
         gameObject.transform.parent.GetComponent<FluffyScript>().SetRelationship(Bond, true);
-        Needs.FoalNumber -= 1;
+        motherNeeds.FoalNumber -= 1;
     }
 }
