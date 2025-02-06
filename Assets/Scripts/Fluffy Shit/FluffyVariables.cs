@@ -1,14 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-
 
 /**
  * This class contains every attribute a fluffy can have.
  */
 // Why is this a MonoBehaviour if it works as data object? Remove.
 // TODO: separate attributes, needs and genes.
-public class FluffyVariables : MonoBehaviour {
+public class FluffyVariables
+{
 
     // Can the whole class be implemented as a ScriptObject?
     // Should be set to private and use getter/setter methods instead
@@ -38,7 +37,7 @@ public class FluffyVariables : MonoBehaviour {
     public int Sex;
     // Is a float variable actually necessary, or does an integer do the job?
     public float Age;
-    public string Name;
+    public string Name = "fluffy";
     public int ID;
     public string Description;
 
@@ -68,20 +67,18 @@ public class FluffyVariables : MonoBehaviour {
     public bool NoFrontLegL;
     public bool NoBackLegR;
     public bool NoBackLegL;
-
     public bool NoTail;
-
     public bool NoHorn;
     public bool NoWings;
     public bool NoCutieMark;
 
     //genetics, motherfucker
-    public int[] RaceGenes;
-    public bool[] AlicornGenes;
-    public Color[] BaseGenes;
-    public Color[] ManeGenes;
-    public Color[] EyeGenes;
-    public int[] HairGenes;
-    public float[] SizeGenes;
+    public int[] RaceGenes = new int[2];
+    public bool[] AlicornGenes = new bool[2];
+    public Color[] BaseGenes = new Color[2];
+    public Color[] ManeGenes = new Color[2];
+    public Color[] EyeGenes = new Color[2];
+    public int[] HairGenes = new int[2];
+    public float[] SizeGenes = new float[2];
 
 }
