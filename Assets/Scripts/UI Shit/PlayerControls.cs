@@ -135,12 +135,12 @@ public class PlayerControls : MonoBehaviour
 
     public void SetDescription(string Description)
     {
-        SelectedFluffy.GetComponent<FluffyVariables>().Description = Description;
+        SelectedFluffy.GetComponent<FluffyScript>().Needs.Description = Description;
     }
 
     public void SetName(string Name)
     {
-        SelectedFluffy.GetComponent<FluffyVariables>().Name = Name;
+        SelectedFluffy.GetComponent<FluffyScript>().Needs.Name = Name;
     }
 
     public void SetBuilding()
@@ -392,7 +392,7 @@ public class PlayerControls : MonoBehaviour
                                     HeldObject.GetComponent<TargetJoint2D>().anchor = new Vector2(HeldObject.GetComponent<Collider2D>().offset.x, HeldObject.GetComponent<Collider2D>().offset.y);
                                     if (HeldObject.CompareTag("Fluffy"))
                                     {
-                                        if (HeldObject.GetComponent<FluffyVariables>().Age > 200)
+                                        if (HeldObject.GetComponent<FluffyScript>().Needs.Age > 200)
                                         {
                                             HeldObject.GetComponent<FluffyScript>().FluffyEvent(0, 0, null, 0, "Hold", 2, 0, true);
 
@@ -481,8 +481,8 @@ public class PlayerControls : MonoBehaviour
                                 {
                                     Editing = true;
                                     SelectedFluffy = Hit.collider.gameObject.transform.parent.gameObject;
-                                    Data.transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<InputField>().text = SelectedFluffy.GetComponent<FluffyVariables>().Name;
-                                    if (SelectedFluffy.GetComponent<FluffyVariables>().Sex == 0)
+                                    Data.transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<InputField>().text = SelectedFluffy.GetComponent<FluffyScript>().Needs.Name;
+                                    if (SelectedFluffy.GetComponent<FluffyScript>().Needs.Sex == (int) Sex.Female)
                                     {
                                         Data.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = "Sex: Male";
                                     }
@@ -490,8 +490,8 @@ public class PlayerControls : MonoBehaviour
                                     {
                                         Data.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = "Sex: Female";
                                     }
-                                    Data.transform.GetChild(0).GetChild(2).GetComponent<Text>().text = "Age: " + Mathf.FloorToInt(SelectedFluffy.GetComponent<FluffyVariables>().Age);
-                                    Data.transform.GetChild(0).GetChild(3).GetComponent<InputField>().text = SelectedFluffy.GetComponent<FluffyVariables>().Description;
+                                    Data.transform.GetChild(0).GetChild(2).GetComponent<Text>().text = "Age: " + Mathf.FloorToInt(SelectedFluffy.GetComponent<FluffyScript>().Needs.Age);
+                                    Data.transform.GetChild(0).GetChild(3).GetComponent<InputField>().text = SelectedFluffy.GetComponent<FluffyScript>().Needs.Description;
                                     Data.SetActive(true);
                                     gameObject.transform.GetChild(0).gameObject.SetActive(false);
                                     break;
@@ -500,16 +500,18 @@ public class PlayerControls : MonoBehaviour
                                 {
                                     GameObject Button = Instantiate((GameObject)Resources.Load("Spawn Button"));
                                     Button.transform.SetParent(gameObject.transform.GetChild(10).GetChild(0).GetChild(2).GetChild(0).GetChild(0));
-                                    FluffyVariables Fluffy = Hit.collider.gameObject.transform.parent.GetComponent<FluffyVariables>();
-                                    System.Type type = Fluffy.GetType();
+                                    FluffyScript fluffyScript = Hit.collider.gameObject.transform.parent.GetComponent<FluffyScript>();
+                                    FluffyVariables fluffyVariables = fluffyScript.Needs;
+                                    System.Type type = fluffyVariables.GetType();
+                                    // TODO: restore storing of the fluffy.
                                     FluffyVariables copy = Button.GetComponent<FluffyVariables>();
                                     // Copied fields can be restricted with BindingFlags
                                     System.Reflection.FieldInfo[] fields = type.GetFields();
                                     foreach (System.Reflection.FieldInfo field in fields)
                                     {
-                                        field.SetValue(copy, field.GetValue(Fluffy));
+                                        field.SetValue(copy, field.GetValue(fluffyVariables));
                                     }
-                                    Destroy(Fluffy.gameObject);
+                                    Destroy(fluffyScript.gameObject);
                                 }
                             }
                             else if (Hit.collider.gameObject.transform.parent.CompareTag("Sensor"))
@@ -560,7 +562,7 @@ public class PlayerControls : MonoBehaviour
                         else
                         {
                             HeldObject.GetComponent<FluffyScript>().FrozenState = false;
-                            if (HeldObject.GetComponent<FluffyVariables>().Age > 200)
+                            if (HeldObject.GetComponent<FluffyScript>().Needs.Age > 200)
                             {
                                 HeldObject.GetComponent<FluffyScript>().FluffyEvent(0, 0, null, 0, "Stand", 2, 0, true);
                             }
@@ -738,18 +740,18 @@ public class PlayerControls : MonoBehaviour
                                                     EffectObject.transform.parent = Bowl.transform;
                                                     EffectObject.AddComponent<EffectScript>();
                                                     EffectScript Effect = EffectObject.GetComponent<EffectScript>();
-                                                    Effect.Sound = Food.Sound;
-                                                    Effect.Message = Food.EffectMessage;
-                                                    Effect.Bleed = Food.Bleed;
-                                                    Effect.Poop = Food.Poop;
-                                                    Effect.Pose = Food.Pose;
-                                                    Effect.Face = Food.Face;
-                                                    Effect.Poison = Food.Poison;
-                                                    Effect.Duration = Food.Duration;
-                                                    Effect.PoseTime = Food.PoseTime;
-                                                    Effect.Interval = Food.Interval;
-                                                    Effect.MoodValue = Food.MoodValue;
-                                                    Effect.Vomit = Food.Vomit;
+                                                    Effect.sound = Food.Sound;
+                                                    Effect.message = Food.EffectMessage;
+                                                    Effect.bleed = Food.Bleed;
+                                                    Effect.poop = Food.Poop;
+                                                    Effect.pose = Food.Pose;
+                                                    Effect.face = Food.Face;
+                                                    Effect.poison = Food.Poison;
+                                                    Effect.duration = Food.Duration;
+                                                    Effect.poseTime = Food.PoseTime;
+                                                    Effect.interval = Food.Interval;
+                                                    Effect.moodValue = Food.MoodValue;
+                                                    Effect.vomit = Food.Vomit;
                                                     EffectObject.SetActive(false);
                                                     EffectObject.name = "Effects";
                                                 }
@@ -848,23 +850,23 @@ public class PlayerControls : MonoBehaviour
         fluffyScript.SetEyes(Random.ColorHSV(), Random.ColorHSV());
         fluffyScript.SetHair(Random.Range(0, 3), Random.Range(0, 3));
         fluffyScript.SetSize(Random.Range(0.9f, 1.1f), Random.Range(0.9f, 1.1f));
-        newFluffy.GetComponent<FluffyVariables>().Age = 600;
+        fluffyScript.Needs.Age = 600;
 
-        if (newFluffy.GetComponent<FluffyVariables>().AlicornGenes[0] == true && newFluffy.GetComponent<FluffyVariables>().AlicornGenes[1] == true)
+        if (fluffyScript.Needs.AlicornGenes[0] && fluffyScript.Needs.AlicornGenes[1])
         {
             bool HasPegasus = false;
             bool HasUnicorn = false;
-            if (newFluffy.GetComponent<FluffyVariables>().RaceGenes[0] == 1 || newFluffy.GetComponent<FluffyVariables>().RaceGenes[1] == 1)
+            if (fluffyScript.Needs.RaceGenes[0] == 1 || fluffyScript.Needs.RaceGenes[1] == 1)
             {
                 HasPegasus = true;
             }
-            if (newFluffy.GetComponent<FluffyVariables>().RaceGenes[0] == 2 || newFluffy.GetComponent<FluffyVariables>().RaceGenes[1] == 2)
+            if (fluffyScript.Needs.RaceGenes[0] == 2 || fluffyScript.Needs.RaceGenes[1] == 2)
             {
                 HasUnicorn = true;
             }
             if (HasPegasus == false || HasUnicorn == false)
             {
-                newFluffy.GetComponent<FluffyVariables>().AlicornGenes[Random.Range(0, 2)] = false;
+                fluffyScript.Needs.AlicornGenes[Random.Range(0, 2)] = false;
             }
         }
     }

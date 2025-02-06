@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -54,14 +53,14 @@ public class FluffyBusinessScript : MonoBehaviour
     //Purple: Hue 270
     //Magenta: Hue 300
     //Pink: Hue 330
-    public void SellFluffy(FluffyVariables Fluffy)
+    public void SellFluffy(FluffyScript fluffy)
     {
         float Money;
         float H;
         float S;
         float V;
         bool EndRed = false;
-        Color.RGBToHSV(Fluffy.BaseColor, out H, out S, out V);
+        Color.RGBToHSV(fluffy.Needs.BaseColor, out H, out S, out V);
         H *= 360;
         if (H >= 345)
         {
@@ -69,45 +68,48 @@ public class FluffyBusinessScript : MonoBehaviour
         }
         Money = 0;
         #region Colors
-            Money += Mathf.Lerp(Market.Orange, 0, Mathf.Abs(H - 30) / 30);
-            Money += Mathf.Lerp(Market.Yellow, 0, Mathf.Abs(H - 60) / 30);
-            Money += Mathf.Lerp(Market.Lime, 0, Mathf.Abs(H - 90) / 30);
-            Money += Mathf.Lerp(Market.Green, 0, Mathf.Abs(H - 120) / 30);
-            Money += Mathf.Lerp(Market.Mint, 0, Mathf.Abs(H - 150) / 30);
-            Money += Mathf.Lerp(Market.Cyan, 0, Mathf.Abs(H - 180) / 30);
-            Money += Mathf.Lerp(Market.Azure, 0, Mathf.Abs(H - 210) / 30);
-            Money += Mathf.Lerp(Market.Blue, 0, Mathf.Abs(H - 240) / 30);
-            Money += Mathf.Lerp(Market.Purple, 0, Mathf.Abs(H - 270) / 30);
-            Money += Mathf.Lerp(Market.Magenta, 0, Mathf.Abs(H - 300) / 30);
-            Money += Mathf.Lerp(Market.Pink, 0, Mathf.Abs(H - 330) / 30);
-            if (EndRed)
-            {
-                Money += Mathf.Lerp(Market.Red, 0, Mathf.Abs(H) / 30);
-            } else
-            {
-                Money += Mathf.Lerp(Market.Red, 0, Mathf.Abs(H) / 30);
-            }
-            #endregion
-        #region Race
-        if (Fluffy.Race == 0)
+        Money += Mathf.Lerp(Market.Orange, 0, Mathf.Abs(H - 30) / 30);
+        Money += Mathf.Lerp(Market.Yellow, 0, Mathf.Abs(H - 60) / 30);
+        Money += Mathf.Lerp(Market.Lime, 0, Mathf.Abs(H - 90) / 30);
+        Money += Mathf.Lerp(Market.Green, 0, Mathf.Abs(H - 120) / 30);
+        Money += Mathf.Lerp(Market.Mint, 0, Mathf.Abs(H - 150) / 30);
+        Money += Mathf.Lerp(Market.Cyan, 0, Mathf.Abs(H - 180) / 30);
+        Money += Mathf.Lerp(Market.Azure, 0, Mathf.Abs(H - 210) / 30);
+        Money += Mathf.Lerp(Market.Blue, 0, Mathf.Abs(H - 240) / 30);
+        Money += Mathf.Lerp(Market.Purple, 0, Mathf.Abs(H - 270) / 30);
+        Money += Mathf.Lerp(Market.Magenta, 0, Mathf.Abs(H - 300) / 30);
+        Money += Mathf.Lerp(Market.Pink, 0, Mathf.Abs(H - 330) / 30);
+        if (EndRed)
         {
-            Money *= Market.Earthie;
+            Money += Mathf.Lerp(Market.Red, 0, Mathf.Abs(H) / 30);
         }
-        else if (Fluffy.Race == 1)
+        else
         {
-            Money *= Market.Pegasus;
-        } else if (Fluffy.Race == 2)
+            Money += Mathf.Lerp(Market.Red, 0, Mathf.Abs(H) / 30);
+        }
+        #endregion
+        #region Race
+
+        switch (fluffy.Needs.Race)
         {
-            Money *= Market.Unicorn;
-        } else if (Fluffy.Race == 3)
-        {
-            Money *= Market.Alicorn;
+            case (int)Race.Earthie:
+                Money *= Market.Earthie;
+                break;
+            case (int)Race.Pegasus:
+                Money *= Market.Pegasus;
+                break;
+            case (int)Race.Unicorn:
+                Money *= Market.Unicorn;
+                break;
+            case (int)Race.Alicorn:
+                Money *= Market.Alicorn;
+                break;
         }
         #endregion
 
         Player.Money += Money;
         print(Money);
-        Destroy(Fluffy.gameObject);
+        Destroy(fluffy.gameObject);
     }
 
     //This function is here to prevent the selected fluffy from spawning inside the ground on the same frame that the Spawn button is clicked, 

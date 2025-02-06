@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [System.Serializable]
 public class Relationship {
@@ -9,7 +7,7 @@ public class Relationship {
     public float TimeSince;
     public float Met;
     public GameObject Fluffy;
-    public Vector2 LastSeen;
+    public Vector2 LocationLastSeen;
 
     public float Lust;
     public float Protectiveness;

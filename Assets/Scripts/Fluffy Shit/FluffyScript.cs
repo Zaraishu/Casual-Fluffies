@@ -7,16 +7,16 @@ public class FluffyScript : MonoBehaviour
 {
 
     #region Variables
-    public float Direction;
+    public int direction;
     public int State;
     public float Speed;
-    int Action;
     public float Size;
     public GameObject Target;
     // That's not so much needs as every attribute a fluffy has!
-    public FluffyVariables Needs;
+    [SerializeReference]
+    public FluffyVariables Needs = new FluffyVariables();
     string TargetTag;
-    public int Motivator;
+    public Motivator motivator;
     public bool FrozenState;
     public bool Falling;
     public bool Held;
@@ -322,7 +322,7 @@ public class FluffyScript : MonoBehaviour
         }
         // Torso matches the next position of the hairtype sprites
         GetTorso().GetComponent<SpriteRenderer>().sprite = Resources.LoadAll<Sprite>("torso")[Needs.HairType + 1];
-        transform.GetChild(0).GetChild(0).GetChild(0).GetChild(3).GetComponent<SpriteRenderer>().sprite = Resources.LoadAll<Sprite>("mane")[Needs.HairType + (3 * Needs.Sex)];
+        GetMane().GetComponent<SpriteRenderer>().sprite = Resources.LoadAll<Sprite>("mane")[Needs.HairType + (3 * Needs.Sex)];
         // tail sprite matches the hairtype
         transform.GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetComponent<SpriteRenderer>().sprite = Resources.LoadAll<Sprite>("tail")[Needs.HairType];
         // only adult fluffies have cutie marks
@@ -337,72 +337,72 @@ public class FluffyScript : MonoBehaviour
         GameObject LostLimb;
         if (Needs.NoTail)
         {
-            LostLimb = transform.GetChild(0).GetChild(0).GetChild(2).gameObject;
-            LostLimb.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = null;
+            LostLimb = GetTail();
+            GetTail().transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = null;
             Destroy(LostLimb.transform.GetChild(0).GetChild(0).gameObject);
         }
         if (Needs.NoBackLegR)
         {
-            LostLimb = transform.GetChild(0).GetChild(0).GetChild(3).gameObject;
+            LostLimb = GetRightRearLeg();
             LostLimb.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("rearstump");
             Destroy(LostLimb.transform.GetChild(0).GetChild(0).gameObject);
             LimbNumber -= 1;
         }
         if (Needs.NoBackLegL)
         {
-            LostLimb = transform.GetChild(0).GetChild(0).GetChild(4).gameObject;
+            LostLimb = GetLeftRearLeg();
             LostLimb.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("rearstump");
             Destroy(LostLimb.transform.GetChild(0).GetChild(0).gameObject);
             LimbNumber -= 1;
         }
         if (Needs.NoFrontLegR)
         {
-            LostLimb = transform.GetChild(0).GetChild(0).GetChild(1).gameObject;
+            LostLimb = GetRightFrontLeg();
             LostLimb.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("frontstump");
             Destroy(LostLimb.transform.GetChild(0).GetChild(0).gameObject);
             LimbNumber -= 1;
         }
         if (Needs.NoFrontLegL)
         {
-            LostLimb = transform.GetChild(0).GetChild(0).GetChild(5).gameObject;
+            LostLimb = GetLeftFrontLeg();
             LostLimb.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("frontstump");
             Destroy(LostLimb.transform.GetChild(0).GetChild(0).gameObject);
             LimbNumber -= 1;
         }
         if (Needs.NoEarR)
         {
-            LostLimb = transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).gameObject;
+            LostLimb = GetRightEar();
             LostLimb.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = null;
             Destroy(LostLimb.transform.GetChild(0).GetChild(0).gameObject);
         }
         if (Needs.NoEarL)
         {
-            LostLimb = transform.GetChild(0).GetChild(0).GetChild(0).GetChild(1).gameObject;
+            LostLimb = GetLeftEar();
             LostLimb.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = null;
             Destroy(LostLimb.transform.GetChild(0).GetChild(0).gameObject);
         }
         if (Needs.NoCutieMark)
         {
-            LostLimb = transform.GetChild(0).GetChild(0).GetChild(7).gameObject;
+            LostLimb = GetCutieMark();
             Destroy(LostLimb.transform.GetChild(0).gameObject);
             LostLimb.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("cutiescar");
             LostLimb.GetComponent<SpriteRenderer>().color = Needs.BaseColor;
         }
         if (Needs.NoWings)
         {
-            LostLimb = transform.GetChild(0).GetChild(0).GetChild(8).gameObject;
+            LostLimb = GetWings();
             Destroy(LostLimb.transform.GetChild(0).gameObject);
             LostLimb.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("wingstump");
         }
         if (Needs.NoHorn)
         {
-            LostLimb = transform.GetChild(0).GetChild(0).GetChild(0).GetChild(6).gameObject;
+            LostLimb = GetHorn();
             Destroy(LostLimb.transform.GetChild(0).gameObject);
             LostLimb.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("hornstump");
         }
         if (Needs.NoEyes)
         {
-            LostLimb = transform.GetChild(0).GetChild(0).GetChild(0).GetChild(4).gameObject;
+            LostLimb = GetEye();
             Destroy(LostLimb.transform.GetChild(0).gameObject);
             LostLimb.GetComponent<SpriteRenderer>().color = Needs.BaseColor;
             LostLimb.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("missingeye");
@@ -421,7 +421,7 @@ public class FluffyScript : MonoBehaviour
             {
                 Found = true;
                 memory.TimeSince = 0;
-                memory.LastSeen = transform.position;
+                memory.LocationLastSeen = transform.position;
 
                 memory.Lust = Mathf.Clamp(memory.Lust + Relationship.Lust, 0, 100);
                 memory.Protectiveness = Mathf.Clamp(memory.Protectiveness + Relationship.Protectiveness, 0, 100);
@@ -431,7 +431,7 @@ public class FluffyScript : MonoBehaviour
                 memory.Fear = Mathf.Clamp(memory.Fear + Relationship.Fear, 0, 100);
                 memory.Anger = Mathf.Clamp(memory.Anger + Relationship.Anger, 0, 100);
                 memory.Submission = Mathf.Clamp(memory.Submission + Relationship.Submission, 0, 100);
-                if (Major == true)
+                if (Major)
                 {
                     memory.IsChild = Relationship.IsChild;
                     memory.IsParent = Relationship.IsParent;
@@ -441,10 +441,10 @@ public class FluffyScript : MonoBehaviour
                 }
             }
         }
-        if (Found == false)
+        if (!Found)
         {
             Relationship.Met = Needs.Age;
-            Relationship.LastSeen = transform.position;
+            Relationship.LocationLastSeen = transform.position;
             Needs.Relationships.Add(Relationship);
         }
     }
@@ -471,15 +471,8 @@ public class FluffyScript : MonoBehaviour
         //<10 morality: rapes chirpie babbehs
         Target = null;
         GameObject[] Results = GameObject.FindGameObjectsWithTag(Tag);
-        float Distance;
-        if (!Needs.NoEyes)
-        {
-            Distance = 30;
-        }
-        else
-        {
-            Distance = 2;
-        }
+        float Distance = Needs.NoEyes ? 2 : 30;
+
         List<FluffyScript> List = new List<FluffyScript>();
         foreach (GameObject hit in Results)
         {
@@ -491,27 +484,27 @@ public class FluffyScript : MonoBehaviour
                     {
                         if (Tag == "Fluffy")
                         {
-                            if (Motivator == 6)
+                            if (motivator == Motivator.HitOn)
                             {
-                                if (hit.GetComponent<FluffyVariables>().Sex != Needs.Sex && hit.GetComponent<FluffyVariables>().Age > (Mathf.Clamp(600 * ((Needs.Morality) / 80), 0, 600)))
+                                if (hit.GetComponent<FluffyScript>().Needs.Sex != Needs.Sex && hit.GetComponent<FluffyScript>().Needs.Age > (Mathf.Clamp(600 * ((Needs.Morality) / 80), 0, 600)))
                                 {
                                     List.Add(hit.GetComponent<FluffyScript>());
                                 }
                             }
-                            else if (Motivator == 5)
+                            else if (motivator == Motivator.NurseFrom)
                             {
-                                if (hit.GetComponent<FluffyVariables>().Lactating && GetRelationship(hit.GetComponent<FluffyVariables>().ID).Fear <= 30)
+                                if (hit.GetComponent<FluffyScript>().Needs.Lactating && GetRelationship(hit.GetComponent<FluffyScript>().Needs.ID).Fear <= 30)
                                 {
                                     Distance = (hit.transform.position - transform.position).magnitude;
                                     Target = hit;
                                 }
                             }
-                            else if (Motivator == 3)
+                            else if (motivator == Motivator.Enf)
                             {
-                                if (hit.GetComponent<FluffyVariables>().Sex == 1)
+                                if (hit.GetComponent<FluffyScript>().Needs.Sex == (int)Sex.Male)
                                 {
                                     {
-                                        if (hit.GetComponent<FluffyVariables>().Age >= Mathf.Clamp(600 * (Needs.Morality / 80), 0, 600))
+                                        if (hit.GetComponent<FluffyScript>().Needs.Age >= Mathf.Clamp(600 * (Needs.Morality / 80), 0, 600))
                                         {
                                             Distance = (hit.transform.position - transform.position).magnitude;
                                             Target = hit;
@@ -523,16 +516,17 @@ public class FluffyScript : MonoBehaviour
                                     }
                                 }
                             }
-                            else if (Motivator == 1)
+                            else if (motivator == Motivator.Talk)
                             {
-                                if (GetRelationship(hit.GetComponent<FluffyVariables>().ID).Anger < 40 && GetRelationship(hit.GetComponent<FluffyVariables>().ID).Fear < 40 && hit.GetComponent<FluffyVariables>().Age > 200)
+                                if (GetRelationship(hit.GetComponent<FluffyScript>().Needs.ID).Anger < 40 && GetRelationship(hit.GetComponent<FluffyScript>().Needs.ID).Fear < 40 && hit.GetComponent<FluffyScript>().Needs.Age > 200)
                                 {
                                     List.Add(hit.GetComponent<FluffyScript>());
                                 }
                             }
-                            else if (Motivator == 0)
+                            else if (motivator == Motivator.Eat)
                             {
-                                if (GetRelationship(hit.GetComponent<FluffyVariables>().ID).Love < (100 - (Needs.Morality)))
+                                // If I'm not mistaken here, fluffies won't eat someone they really love
+                                if (GetRelationship(hit.GetComponent<FluffyScript>().Needs.ID).Love < (100 - (Needs.Morality)))
                                 {
                                     Distance = (hit.transform.position - transform.position).magnitude;
                                     Target = hit;
@@ -553,7 +547,7 @@ public class FluffyScript : MonoBehaviour
                 }
             }
         }
-        if (Motivator == 1 || Motivator == 6)
+        if (motivator == Motivator.Talk || motivator == Motivator.HitOn)
         {
             if (List.Count > 0)
             {
@@ -561,23 +555,23 @@ public class FluffyScript : MonoBehaviour
             }
             else
             {
-                if (Motivator == 1)
+                if (motivator == Motivator.Talk)
                 {
                     AffectPersonality(0, -1, 0, 0);
                     if (!Needs.NoEyes)
                     {
                         PlaySound("sadtalk", true);
                         FluffyEvent(0, 0, null, 5, "Stand", 2, 3, false);
-                        Message("<name> wan' fwends...", null, null, "fwuffy");
+                        Message(FluffSpeak.WanFwends, null, null, "fwuffy");
                     }
                     else
                     {
                         PlaySound("sadtalk", true);
                         FluffyEvent(0, 0, null, 5, "Stand", 2, 3, false);
-                        Message("nu can see nuffin... huu huu huu...", null, null, null);
+                        Message(FluffSpeak.NuCanSeeNuffin, null, null, null);
                     }
                 }
-                else if (Motivator == 6)
+                else if (motivator == Motivator.HitOn)
                 {
                     FluffyEvent(0, 0, null, 5, "Lay", 2, 0, false);
                     PlaySound("happytalk", true);
@@ -600,10 +594,11 @@ public class FluffyScript : MonoBehaviour
         {
             if (Target == null)
             {
-                if (Motivator == 0)
+                if (motivator == Motivator.Eat)
                 {
-                    if (Needs.IsCannibal == true)
+                    if (Needs.IsCannibal)
                     {
+                        // Seek and eat a corpse
                         if (Tag == "Corpse")
                         {
                             Seek("Fluffy");
@@ -612,7 +607,7 @@ public class FluffyScript : MonoBehaviour
                     }
                     if (Needs.Hunger > 210 * (1 - (Needs.Cannibalism * 0.01f)))
                     {
-                        if (Needs.IsCannibal == false)
+                        if (!Needs.IsCannibal)
                         {
                             if (Tag == "Food")
                             {
@@ -623,7 +618,7 @@ public class FluffyScript : MonoBehaviour
                     }
                     if (Needs.Hunger > 210 * (Needs.Cannibalism * 0.01f))
                     {
-                        if (Needs.IsCannibal == true)
+                        if (Needs.IsCannibal)
                         {
                             if (Tag == "Fluffy")
                             {
@@ -635,21 +630,21 @@ public class FluffyScript : MonoBehaviour
                     if (Needs.Hunger > 210)
                     {
                         PlaySound("sadtalk", true);
-                        Message("huu huu huu...", null, null, null);
+                        Message(FluffSpeak.HuuHuuHuu, null, null, null);
                     }
                     else if (Needs.Hunger > 180)
                     {
                         if (Needs.Age > 200)
                         {
-                            if (Needs.IsCannibal == true)
+                            if (Needs.IsCannibal)
                             {
                                 PlaySound("sadtalk", true);
-                                Message("daddeh, dewe nu dummehs anywhewe!", null, null, null);
+                                Message(FluffSpeak.DeweNuDummehsAnyWhewe, null, null, null);
                             }
                             else
                             {
                                 PlaySound("sadtalk", true);
-                                Message("daddeh, pwease... su hungwy...", null, null, null);
+                                Message(FluffSpeak.SuHungwy, null, null, null);
                             }
                         }
                         else
@@ -709,7 +704,7 @@ public class FluffyScript : MonoBehaviour
                         }
                     }
                 }
-                else if (Motivator == 2)
+                else if (motivator == Motivator.PlayWith)
                 {
                     PlaySound("sadtalk", true);
                     Message("dewe nu toysies anywhewe! <name> wan' pway...", null, null, "fwuffy");
@@ -733,9 +728,9 @@ public class FluffyScript : MonoBehaviour
             }
             else
             {
-                if (Target.CompareTag("Fluffy") && Motivator == 3)
+                if (Target.CompareTag("Fluffy") && motivator == Motivator.Enf)
                 {
-                    Target.GetComponent<FluffyVariables>().SexDrive = 0;
+                    Target.GetComponent<FluffyScript>().Needs.SexDrive = 0;
                 }
                 Check();
                 if (Target != null)
@@ -744,22 +739,22 @@ public class FluffyScript : MonoBehaviour
                     {
                         if (!Needs.NoEyes)
                         {
-                            FluffyEvent(3, Motivator, Target, 5, "Run", 4, 0, false);
+                            FluffyEvent(3, (int)motivator, Target, 5, "Run", 4, 0, false);
                         }
                         else
                         {
-                            FluffyEvent(3, Motivator, Target, 5, "Walk", 2, 0, false);
+                            FluffyEvent(3, (int)motivator, Target, 5, "Walk", 2, 0, false);
                         }
                     }
                     else
                     {
-                        FluffyEvent(3, Motivator, Target, 5, "Crawl", 1, 8, false);
+                        FluffyEvent(3, (int)motivator, Target, 5, "Crawl", 1, 8, false);
                     }
                     if (Target.CompareTag("Fluffy"))
                     {
-                        if (Motivator == 0)
+                        if (motivator == Motivator.Eat)
                         {
-                            if (Target.GetComponent<FluffyVariables>().Age > 200)
+                            if (Target.GetComponent<FluffyScript>().Needs.Age > 200)
                             {
                                 if (Target.GetComponent<FluffyScript>().GetRelationship(Needs.ID).Fear > 20)
                                 {
@@ -788,7 +783,7 @@ public class FluffyScript : MonoBehaviour
             {
                 Found = true;
                 //if fluffy is seeking it to eat it, eat it, or hit it without waiting if it's a fluffy
-                if (Motivator == 0)
+                if (motivator == Motivator.Eat)
                 {
                     if (hit.collider.gameObject.CompareTag("Fluffy"))
                     {
@@ -803,7 +798,7 @@ public class FluffyScript : MonoBehaviour
                     }
                 }
                 //else if fluffy is seeking it to play, send a message to the entire thing
-                else if (Motivator == 2)
+                else if (motivator == Motivator.PlayWith)
                 {
                     if (hit.collider.gameObject.CompareTag("Toy"))
                     {
@@ -811,7 +806,7 @@ public class FluffyScript : MonoBehaviour
                     }
                 }
                 //else if fluffy is seeking it to fuck it
-                else if (Motivator == 3)
+                else if (motivator == Motivator.Enf)
                 {
                     if (!Needs.NoFrontLegR || !Needs.NoFrontLegL)
                     {
@@ -831,13 +826,13 @@ public class FluffyScript : MonoBehaviour
                     }
                     //if fluffy is seeking it to murder it
                 }
-                else if (Motivator == 4)
+                else if (motivator == Motivator.Hit)
                 {
                     Message("*fucking SMACK*", null, null, null);
                     HitAction(hit.collider.gameObject);
                     FluffyEvent(0, 0, null, 1, "Stand", 2, 5, false);
                 }
-                else if (Motivator == 5)
+                else if (motivator == Motivator.NurseFrom)
                 {
                     if (hit.collider.gameObject.CompareTag("Fluffy"))
                     {
@@ -847,7 +842,7 @@ public class FluffyScript : MonoBehaviour
                 Target = null;
             }
         }
-        if (Found == false)
+        if (!Found)
         {
             if (Target != null)
             {
@@ -878,7 +873,7 @@ public class FluffyScript : MonoBehaviour
                 if (Held == false)
                 {
                     PlaySound("scree", true);
-                    Message("EEEEEEEE!", null, null, null);
+                    Message(FluffSpeak.EEEEEE, null, null, null);
                     FluffyEvent(0, 0, null, 5, "Fall", 2, 10, false);
                     FrozenState = true;
                 }
@@ -889,23 +884,27 @@ public class FluffyScript : MonoBehaviour
     private void FixedUpdate()
     {
         //if state is set to walking, seeking, or fleeing, move
-        if (State == 1 || State == 3 || State == 4)
+        switch ((FluffyState)State)
         {
-            if (Direction == 1)
-            {
-                GetComponent<Rigidbody2D>().MovePosition(transform.position + new Vector3(Speed * Time.deltaTime * 1.25f, 0, 0));
-            }
-            else
-            {
-                GetComponent<Rigidbody2D>().MovePosition(transform.position + new Vector3(Speed * Time.deltaTime * -1.25f, 0, 0));
-            }
+            case FluffyState.WalkingRunning:
+            case FluffyState.ApproachingTarget:
+            case FluffyState.FleeingFromTarget:
+                if (direction == 1)
+                {
+                    GetComponent<Rigidbody2D>().MovePosition(transform.position + new Vector3(Speed * Time.deltaTime * 1.25f, 0, 0));
+                }
+                else
+                {
+                    GetComponent<Rigidbody2D>().MovePosition(transform.position + new Vector3(Speed * Time.deltaTime * -1.25f, 0, 0));
+                }
+                break;
         }
     }
 
-    public void SetDirection(int Dir)
+    public void SetDirection(int dir)
     {
-        Direction = Dir;
-        if (Direction == 1)
+        this.direction = dir;
+        if (dir == 1)
         {
             transform.localScale = new Vector3(Size, Size, 1);
         }
@@ -928,7 +927,7 @@ public class FluffyScript : MonoBehaviour
     //If the fluffy is seeking something out, perform an action on it.
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (State == 3)
+        if (State == (int)FluffyState.ApproachingTarget)
         {
             if (collision.gameObject == Target)
             {
@@ -957,7 +956,7 @@ public class FluffyScript : MonoBehaviour
             Mood -= 50;
             FluffyEvent(0, 0, null, 6, "Rape", 2, 3, false);
             PlaySound("sadtalk", true);
-            Message("huu huu huu...", null, null, null);
+            Message(FluffSpeak.HuuHuuHuu, null, null, null);
         }
         else
         {
@@ -1084,7 +1083,7 @@ public class FluffyScript : MonoBehaviour
         {
             Target = Object;
             State = FluffyState;
-            Motivator = Action;
+            motivator = (Motivator)Action;
             Speed = (FluffySpeed * (0.1f + (0.9f * (LimbNumber / 4f))) - (FluffySpeed * (0.1f + (0.9f * (LimbNumber / 4f))) * 0.75f) * transform.GetChild(0).GetChild(0).GetChild(9).localScale.y) * (Needs.Health / 100);
             GetComponent<FluffyAI>().ActionTurns = Turns;
             //if the fluffy is missing two or more limbs or has low health, use crawling animation in place of walking/running
@@ -1131,13 +1130,13 @@ public class FluffyScript : MonoBehaviour
                 Check();
             }
         }
-        transform.GetChild(0).GetComponent<AnimEvents>().SetFace(Face);
+        transform.GetChild(0).GetComponent<BirthEvent>().SetFace(Face);
     }
 
     // TODO: Use enums!!
     public void LoseLimb(int Limb)
     {
-        Message("SCREEEEEEEEEEEEEEEEEEEEEEEEE!", null, null, null);
+        Message(FluffSpeak.Screee, null, null, null);
         PlaySound("scree", true);
         Needs.Health -= 7.5f;
         GameObject LostLimb = null;
@@ -1571,7 +1570,7 @@ public class FluffyScript : MonoBehaviour
                     {
                         if ((hit.transform.position - transform.position).magnitude < Distance)
                         {
-                            if (hit != gameObject && hit.GetComponent<FluffyVariables>().Age > 200)
+                            if (hit != gameObject && hit.GetComponent<FluffyScript>().Needs.Age > 200)
                             {
                                 FluffyScript OtherFluffy = hit.GetComponent<FluffyScript>();
 
@@ -1666,7 +1665,7 @@ public class FluffyScript : MonoBehaviour
                             {
                                 if ((hit.transform.position - transform.position).magnitude < Distance)
                                 {
-                                    if (hit != gameObject && hit.GetComponent<FluffyVariables>().Age > 200)
+                                    if (hit != gameObject && hit.GetComponent<FluffyScript>().Needs.Age > 200)
                                     {
                                         FluffyScript OtherFluffy = hit.GetComponent<FluffyScript>();
                                         OtherFluffy.AffectPersonality(-3, 0, 0, 0);
@@ -1767,7 +1766,7 @@ public class FluffyScript : MonoBehaviour
                             {
                                 if ((hit.transform.position - transform.position).magnitude < Distance)
                                 {
-                                    if (hit != gameObject && hit.GetComponent<FluffyVariables>().Age > 200)
+                                    if (hit != gameObject && hit.GetComponent<FluffyScript>().Needs.Age > 200)
                                     {
                                         FluffyScript OtherFluffy = hit.GetComponent<FluffyScript>();
                                         OtherFluffy.AffectPersonality(-1, 0, 0, 0);
@@ -1852,7 +1851,7 @@ public class FluffyScript : MonoBehaviour
                             {
                                 if ((hit.transform.position - transform.position).magnitude < Distance)
                                 {
-                                    if (hit != gameObject && hit.GetComponent<FluffyVariables>().Age > 200)
+                                    if (hit != gameObject && hit.GetComponent<FluffyScript>().Needs.Age > 200)
                                     {
                                         FluffyScript OtherFluffy = hit.GetComponent<FluffyScript>();
                                         if (!Physics2D.Linecast(new Vector2(transform.position.x, transform.position.y), new Vector2(hit.transform.position.x, hit.transform.position.y), LayerMask.GetMask("Map")))
@@ -1915,7 +1914,7 @@ public class FluffyScript : MonoBehaviour
                             {
                                 if ((hit.transform.position - transform.position).magnitude < Distance)
                                 {
-                                    if (hit != gameObject && hit.GetComponent<FluffyVariables>().Age > 200)
+                                    if (hit != gameObject && hit.GetComponent<FluffyScript>().Needs.Age > 200)
                                     {
                                         FluffyScript OtherFluffy = hit.GetComponent<FluffyScript>();
                                         if (!Physics2D.Linecast(new Vector2(transform.position.x, transform.position.y), new Vector2(hit.transform.position.x, hit.transform.position.y), LayerMask.GetMask("Map")))
@@ -1977,14 +1976,14 @@ public class FluffyScript : MonoBehaviour
     //The owner of the script impregnates the specified fluffy. See Mate for the actual enfing.
     void SpecialHuggies(GameObject Fluffy, bool Submissive)
     {
-        FluffyVariables OtherNeeds = Fluffy.GetComponent<FluffyVariables>();
+        FluffyVariables OtherNeeds = Fluffy.GetComponent<FluffyScript>().Needs;
         //TODO: Refactoring with the predefined zero vector 
         GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
         Fluffy.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
         transform.position = new Vector3(Fluffy.transform.position.x - 1, transform.position.y, 0);
         if (OtherNeeds.Pregnant == false)
         {
-            FluffyVariables Genes = Fluffy.AddComponent<FluffyVariables>();
+            FluffyVariables Genes = new FluffyVariables();
             Genes.RaceGenes = Needs.RaceGenes;
             Genes.AlicornGenes = Needs.AlicornGenes;
             Genes.BaseGenes = Needs.BaseGenes;
@@ -1992,14 +1991,12 @@ public class FluffyScript : MonoBehaviour
             Genes.EyeGenes = Needs.EyeGenes;
             Genes.HairGenes = Needs.HairGenes;
             Genes.SizeGenes = Needs.SizeGenes;
-            Genes.transform.parent = OtherNeeds.transform.parent;
-            //This field is null during playtesting. Why?
             OtherNeeds.FatherGenes = Genes;
         }
         Relationship Bond;
         Bond = new Relationship
         {
-            FluffyID = Fluffy.GetComponent<FluffyVariables>().ID,
+            FluffyID = Fluffy.GetComponent<FluffyScript>().Needs.ID,
             Fluffy = Fluffy,
             Lust = 10,
         };
@@ -2063,7 +2060,7 @@ public class FluffyScript : MonoBehaviour
                             }
                             Bond = new Relationship
                             {
-                                FluffyID = Fluffy.GetComponent<FluffyVariables>().ID,
+                                FluffyID = Fluffy.GetComponent<FluffyScript>().Needs.ID,
                                 Fluffy = Fluffy,
                                 IsDeceased = true
                             };
@@ -2229,13 +2226,13 @@ public class FluffyScript : MonoBehaviour
         if (!Needs.NoFrontLegR || !Needs.NoFrontLegL)
         {
             Fluffy.GetComponent<FluffyScript>().PlaySound("hurt", false);
-            if (Fluffy.GetComponent<FluffyVariables>().Age > 200)
+            if (Fluffy.GetComponent<FluffyScript>().Needs.Age > 200)
             {
                 Fluffy.GetComponent<FluffyScript>().FluffyEvent(4, 0, gameObject, 5, "Run", 4, 3, false);
                 Fluffy.GetComponent<FluffyScript>().Message("eeeee!", null, null, null);
                 Fluffy.GetComponent<FluffyScript>().PlaySound("ow", true);
                 Fluffy.GetComponent<FluffyScript>().Mood -= 10;
-                Fluffy.GetComponent<FluffyVariables>().Health -= 10;
+                Fluffy.GetComponent<FluffyScript>().Needs.Health -= 10;
                 Fluffy.GetComponent<FluffyScript>().AffectPersonality(2, 0, 0, 0);
             }
             else
@@ -2244,7 +2241,7 @@ public class FluffyScript : MonoBehaviour
                 Fluffy.GetComponent<FluffyScript>().Message("SPEEEEEE!", null, null, null);
                 Fluffy.GetComponent<FluffyScript>().PlaySound("scree", true);
                 Fluffy.GetComponent<FluffyScript>().Mood -= 30;
-                Fluffy.GetComponent<FluffyVariables>().Health -= 30;
+                Fluffy.GetComponent<FluffyScript>().Needs.Health -= 30;
             }
             Fluffy.GetComponent<FluffyScript>().Bleed();
             Relationship Bond = new Relationship
@@ -2258,15 +2255,20 @@ public class FluffyScript : MonoBehaviour
         }
     }
 
-    //The owner of the script tries to nurse from the specified fluffy.
+    /**
+     * <summary>
+     * The fluffy baby tries to get nursed from the specified fluffy.
+     * </summary>
+     * <param name="Fluffy"> The fluffy the baby tries to nurse from.</param>
+     */
     void Nurse(GameObject Fluffy)
     {
         Relationship Bond;
-        if (Fluffy.GetComponent<FluffyVariables>().Sexuality >= 70 && Fluffy.GetComponent<FluffyVariables>().Morality <= 20)
+        if (Fluffy.GetComponent<FluffyScript>().Needs.Sexuality >= 70 && Fluffy.GetComponent<FluffyScript>().Needs.Morality <= 20)
         {
             Fluffy.GetComponent<FluffyScript>().PlaySound("scree", true);
             Fluffy.GetComponent<FluffyScript>().Message("NUUUU! GU 'WAY! <NAME> NU GON' BE MUMMAH!", null, null, "FWUFFY");
-            if (Fluffy.GetComponent<FluffyVariables>().NoFrontLegR && Fluffy.GetComponent<FluffyVariables>().NoFrontLegL)
+            if (Fluffy.GetComponent<FluffyScript>().Needs.NoFrontLegR && Fluffy.GetComponent<FluffyScript>().Needs.NoFrontLegL)
             {
                 Suckle(Fluffy);
             }
@@ -2277,11 +2279,11 @@ public class FluffyScript : MonoBehaviour
         }
         else
         {
-            if (Needs.Race == 3 && Fluffy.GetComponent<FluffyVariables>().Race != 3 && !Fluffy.GetComponent<FluffyVariables>().NoEyes && !Needs.NoHorn && !Needs.NoWings)
+            if (Needs.Race == (int)Race.Alicorn && Fluffy.GetComponent<FluffyScript>().Needs.Race != (int) Race.Alicorn && !Fluffy.GetComponent<FluffyScript>().Needs.NoEyes && !Needs.NoHorn && !Needs.NoWings)
             {
                 Fluffy.GetComponent<FluffyScript>().PlaySound("scree", true);
-                Fluffy.GetComponent<FluffyScript>().Message("MUNSTAH BABBEH! SCREEEEEEE!", null, null, null);
-                if (!Fluffy.GetComponent<FluffyVariables>().NoFrontLegR || !Fluffy.GetComponent<FluffyVariables>().NoFrontLegL)
+                Fluffy.GetComponent<FluffyScript>().Message(FluffSpeak.MunstahBabbeh, null, null, null);
+                if (!Fluffy.GetComponent<FluffyScript>().Needs.NoFrontLegR || !Fluffy.GetComponent<FluffyScript>().Needs.NoFrontLegL)
                 {
                     Fluffy.GetComponent<FluffyScript>().HitAction(gameObject);
                 }
@@ -2295,7 +2297,7 @@ public class FluffyScript : MonoBehaviour
             {
                 if (Fluffy.GetComponent<FluffyScript>().GetRelationship(Needs.ID).IsChild == true || Needs.NoEyes)
                 {
-                    if (Fluffy.GetComponent<FluffyVariables>().Milk > 20)
+                    if (Fluffy.GetComponent<FluffyScript>().Needs.Milk > 20)
                     {
                         Fluffy.GetComponent<FluffyScript>().PlaySound("sing", true);
                         Fluffy.GetComponent<FluffyScript>().Message("babbeh dwink miwkies, gwow up big an' stwong...", null, null, null);
@@ -2364,17 +2366,17 @@ public class FluffyScript : MonoBehaviour
                 }
                 else
                 {
-                    if (GetRelationship(Fluffy.GetComponent<FluffyVariables>().ID).Fear >= 50)
+                    if (GetRelationship(Fluffy.GetComponent<FluffyScript>().Needs.ID).Fear >= 50)
                     {
                         PlaySound("scaredtalk", true);
-                        Message("chirp! chirp! *shiver*", null, null, null);
+                        Message(FluffSpeak.ScaredChirpies, null, null, null);
                     }
                     else
                     {
-                        if (Fluffy.GetComponent<FluffyVariables>().Morality > 40)
+                        if (Fluffy.GetComponent<FluffyScript>().Needs.Morality > 40)
                         {
                             Fluffy.GetComponent<FluffyScript>().PlaySound("sadtalk", true);
-                            if (Fluffy.GetComponent<FluffyVariables>().Milk > 20)
+                            if (Fluffy.GetComponent<FluffyScript>().Needs.Milk > 20)
                             {
                                 Fluffy.GetComponent<FluffyScript>().Message("yu wost, widdwe babbeh? <name> hab miwkies fow yu...", null, null, "fwuffy");
                                 Suckle(Fluffy);
@@ -2398,7 +2400,7 @@ public class FluffyScript : MonoBehaviour
                         }
                         else
                         {
-                            if (Fluffy.GetComponent<FluffyVariables>().NoFrontLegR && Fluffy.GetComponent<FluffyVariables>().NoFrontLegL)
+                            if (Fluffy.GetComponent<FluffyScript>().Needs.NoFrontLegR && Fluffy.GetComponent<FluffyScript>().Needs.NoFrontLegL)
                             {
                                 Suckle(Fluffy);
                                 Fluffy.GetComponent<FluffyScript>().PlaySound("scree", true);
@@ -2424,7 +2426,7 @@ public class FluffyScript : MonoBehaviour
                                 }
                                 else
                                 {
-                                    if (Fluffy.GetComponent<FluffyVariables>().Lactating == true)
+                                    if (Fluffy.GetComponent<FluffyScript>().Needs.Lactating == true)
                                     {
                                         Fluffy.GetComponent<FluffyScript>().Message("gu 'way, dummeh babbeh! miwkies am fow <name>'s babbehs!", null, null, "fwuffy");
                                     }
@@ -2434,7 +2436,7 @@ public class FluffyScript : MonoBehaviour
                                     }
                                     Bond = new Relationship
                                     {
-                                        FluffyID = Fluffy.GetComponent<FluffyVariables>().ID,
+                                        FluffyID = Fluffy.GetComponent<FluffyScript>().Needs.ID,
                                         Fluffy = Fluffy,
                                         Love = -10,
                                         Fear = 15,
@@ -2461,30 +2463,30 @@ public class FluffyScript : MonoBehaviour
     //This is where the fluffy actually drinks milk. Successful Nurse attempts lead here.
     void Suckle(GameObject Fluffy)
     {
-        if (Fluffy.GetComponent<FluffyVariables>().Milk >= 20)
+        if (Fluffy.GetComponent<FluffyScript>().Needs.Milk >= 20)
         {
             FluffyEvent(0, 0, null, 1, "Lay", 2, 8, false);
-            Fluffy.GetComponent<FluffyVariables>().Milk -= 20;
+            Fluffy.GetComponent<FluffyScript>().Needs.Milk -= 20;
             Needs.Hunger -= 60;
             Relationship Bond = new Relationship
             {
-                FluffyID = Fluffy.GetComponent<FluffyVariables>().ID,
+                FluffyID = Fluffy.GetComponent<FluffyScript>().Needs.ID,
                 Fluffy = Fluffy,
                 Love = 25,
                 Admiration = 25,
                 Fear = -25,
                 Anger = -10,
-                LastSeen = Fluffy.transform.position,
+                LocationLastSeen = Fluffy.transform.position,
                 IsParent = true
             };
             SetRelationship(Bond, true);
-            if (Fluffy.GetComponent<FluffyVariables>().IsCannibal == true)
+            if (Fluffy.GetComponent<FluffyScript>().Needs.IsCannibal == true)
             {
-                Needs.Cannibalism += 50 * (Fluffy.GetComponent<FluffyVariables>().Cannibalism / 100);
+                Needs.Cannibalism += 50 * (Fluffy.GetComponent<FluffyScript>().Needs.Cannibalism / 100);
             }
             else
             {
-                Needs.Cannibalism -= 50 - (50 * (Fluffy.GetComponent<FluffyVariables>().Cannibalism / 100));
+                Needs.Cannibalism -= 50 - (50 * (Fluffy.GetComponent<FluffyScript>().Needs.Cannibalism / 100));
             }
             Needs.Cannibalism = Mathf.Clamp(Needs.Cannibalism, 0, 100);
             if (Needs.Cannibalism == 100)
@@ -2511,12 +2513,14 @@ public class FluffyScript : MonoBehaviour
             Fluffy.PlaySound("scree", true);
             Fluffy.Message("MUNSTAH FWUFFY! SCREEEEE!", null, null, null);
         }
-        else if (Needs.Race != 3 && Fluffy.Needs.Race == 3 && !Needs.NoEyes && !Fluffy.Needs.NoHorn && !Fluffy.Needs.NoWings)
+        // This actually checks if the horn or wings were amputated.
+        // TODO: it would make sense if a fluffy believes an alicorn without horn OR wings not to be an alicorn. Change logical statement.
+        else if (Needs.Race != (int)Race.Alicorn && Fluffy.Needs.Race == (int)Race.Alicorn && !Needs.NoEyes && !Fluffy.Needs.NoHorn && !Fluffy.Needs.NoWings)
         {
             FluffyEvent(4, 0, Fluffy.gameObject, 5, "Run", 4, 4, false);
             Mood -= 20;
             PlaySound("scree", true);
-            Message("MUNSTAH FWUFFY! SCREEEEE!", null, null, null);
+            Message(FluffSpeak.MunstahFwuffy, null, null, null);
         }
         else
         {
@@ -3090,7 +3094,7 @@ public class FluffyScript : MonoBehaviour
                 {
                     Fluffy.PlaySound("sadtalk", true);
                     Fluffy.FluffyEvent(0, 0, null, 5, "Stand", 2, 3, false);
-                    Fluffy.Message("<name> sowwy, nu can heaw yu! huu huu huu...", null, null, "fwuffy");
+                    Fluffy.Message(FluffSpeak.NuCanHeawYu, null, null, "fwuffy");
                 }
             }
         }
