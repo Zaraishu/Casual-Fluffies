@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class PlantGrowth : MonoBehaviour {
+public class PlantGrowth : MonoBehaviour
+{
 
     Vector2 TilePosition;
 
@@ -14,8 +15,9 @@ public class PlantGrowth : MonoBehaviour {
     public float Toxic;
     public float Hallucinogenic;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
         InvokeRepeating("Grow", 0, 0.5f);
         Grass = 35;
         Flowers = 40;
@@ -25,10 +27,11 @@ public class PlantGrowth : MonoBehaviour {
         Safe = 65;
         Toxic = 10;
         Hallucinogenic = 25;
-	}
+    }
 
     // Update is called once per frame
-    void Grow() {
+    void Grow()
+    {
         TilePosition = new Vector2(Random.Range(-192, 192), Random.Range(-12, 111));
         int Times = 0;
         bool FoundSpot = false;
@@ -50,7 +53,7 @@ public class PlantGrowth : MonoBehaviour {
                 gameObject.transform.parent.GetChild(1).GetComponent<Tilemap>().GetTile(Vector3Int.FloorToInt(new Vector3(TilePosition.x, TilePosition.y, 0))) == (TileBase)Resources.Load("Tiles/grass"))
                 {
                     if (gameObject.transform.parent.GetChild(1).GetComponent<Tilemap>().GetTile(Vector3Int.FloorToInt(new Vector3(TilePosition.x, TilePosition.y, 0))) == (TileBase)Resources.Load("Tiles/grass") || !gameObject.transform.parent.GetChild(1).GetComponent<Tilemap>().GetTile(Vector3Int.FloorToInt(new Vector3(TilePosition.x, TilePosition.y, 0))))
-                    FoundSpot = true;
+                        FoundSpot = true;
                     break;
                 }
             }
@@ -71,18 +74,23 @@ public class PlantGrowth : MonoBehaviour {
                 if (Level < Hallucinogenic)
                 {
                     Name += "baked";
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().Poison = -0.1f;
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().Duration = 60;
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().Pose = "Lay";
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().PoseTime = 5;
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().Interval = 10;
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().Face = 0;
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().MoodValue = -5;
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().Sound = "happytalk";
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().Message = new string[3];
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().Message[0] = "*munch* nummies, come back!";
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().Message[1] = "*wiggle wiggle* siwwy weggies! buddah weggies nu gud fow wawkies!";
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().Message[2] = "huu huu... <name> hab scawedies!";
+                    EffectScript effect = new EffectScript.Builder()
+                        .withPoison(-0.1f)
+                        .withDuration(60)
+                        .withPose("Lay")
+                        .withPoseTime(5)
+                        .withInterval(10)
+                        .withFace(0)
+                        .withMoodValue(-5)
+                        .withSound("happytalk")
+                        .withMessages(new string[3]
+                        {
+                            "*munch* nummies, come back!",
+                            "*wiggle wiggle* siwwy weggies! buddah weggies nu gud fow wawkies!",
+                            "huu huu... <name> hab scawedies!"
+                        }).build();
+                    EffectScript effectScript = Plant.transform.GetChild(0).gameObject.GetComponent<EffectScript>();
+                    effectScript = effect;
                 }
                 else if (Level < Hallucinogenic + Toxic)
                 {
@@ -93,7 +101,8 @@ public class PlantGrowth : MonoBehaviour {
                     Name += "safe";
                     Destroy(Plant.transform.GetChild(0).gameObject);
                 }
-            } else
+            }
+            else
             {
                 Name += "safe";
                 Destroy(Plant.transform.GetChild(0).gameObject);
@@ -104,19 +113,23 @@ public class PlantGrowth : MonoBehaviour {
                 Plant.GetComponent<FoodScript>().Hunger = 40;
                 if (Name == "death")
                 {
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().Poison = -0.2f;
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().Duration = 80;
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().Vomit = true;
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().Pose = "Poop";
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().PoseTime = 5;
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().Interval = 20;
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().Face = 10;
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().MoodValue = -15;
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().Sound = "scaredtalk";
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().Message = new string[3];
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().Message[0] = "bad tummy feews- *HURK*";
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().Message[1] = "*cough cough* daddeh, <name> hab sickies...";
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().Message[2] = "huu huu huu! nu wan' make sickie wawas nu mowe- *HURK*";
+                    EffectScript effect = new EffectScript.Builder()
+                        .withPoison(-0.2f)
+                        .withDuration(80)
+                        .withVomit()
+                        .withPose("Poop")
+                        .withPoseTime(5)
+                        .withInterval(20)
+                        .withFace(10)
+                        .withMoodValue(-15)
+                        .withSound("scaredtalk")
+                        .withMessages(new string[3] {
+                        "bad tummy feews- *HURK*",
+                        "*cough cough* daddeh, <name> hab sickies...",
+                        "huu huu huu! nu wan' make sickie wawas nu mowe- *HURK*"
+                    }).build();
+                    EffectScript effectScript = Plant.transform.GetChild(0).gameObject.GetComponent<EffectScript>();
+                    effectScript = effect;
                 }
                 Name += "berries";
             }
@@ -126,43 +139,54 @@ public class PlantGrowth : MonoBehaviour {
                 Plant.GetComponent<FoodScript>().Hunger = 30;
                 if (Name == "death")
                 {
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().Poison = -0.4f;
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().Duration = 40;
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().Poop = true;
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().Pose = "Poop";
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().PoseTime = 5;
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().Interval = 15;
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().Face = 4;
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().MoodValue = -10;
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().Sound = "scree";
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().Message = new string[3];
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().Message[0] = "HUWTIE POOPIES! SCREEEEEE!";
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().Message[1] = "WHY POOPIES GIB HUWTIES? HUU HUU HUU!";
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().Message[2] = "WOWSTEST POOPIE HUWTIES!";
+                    EffectScript effect = new EffectScript.Builder()
+                        .withPoison(-0.4f)
+                        .withDuration(40)
+                        .withPoop()
+                        .withPose("Poop")
+                        .withPoseTime(5)
+                        .withInterval(15)
+                        .withFace(4)
+                        .withMoodValue(-10)
+                        .withSound("scree")
+                        .withMessages(new string[3]{
+                        "HUWTIE POOPIES! SCREEEEEE!",
+                        "WHY POOPIES GIB HUWTIES? HUU HUU HUU!",
+                        "WOWSTEST POOPIE HUWTIES!"
+                    }).build();
+                    EffectScript effectScript = Plant.transform.GetChild(0).gameObject.GetComponent<EffectScript>();
+                    effectScript = effect;
                 }
                 Name += "mushrooms";
-            } else if (Type < Berries + Mushrooms + Flowers)
+            }
+            else if (Type < Berries + Mushrooms + Flowers)
             {
                 Plant.GetComponent<FoodScript>().Message = "pwetty nummies!";
                 Plant.GetComponent<FoodScript>().Hunger = 25;
                 if (Name == "death")
                 {
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().Poison = -0.75f;
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().Duration = 20;
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().Bleed = true;
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().Pose = "Pant";
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().PoseTime = 5;
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().Interval = 10;
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().Face = 4;
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().MoodValue = -20;
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().Sound = "scaredtalk";
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().Message = new string[3];
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().Message[0] = "WOWSTEST TUMMY OWWIES!";
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().Message[1] = "huu huu... daddeh, hewp <name>...";
-                    Plant.transform.GetChild(0).GetComponent<EffectScript>().Message[2] = "huu huu huu... *cough*";
+                    EffectScript effect = new EffectScript.Builder()
+                        .withPoison(-0.75f)
+                        .withDuration(20)
+                        .withBleed()
+                        .withPose("Pant")
+                        .withPoseTime(5)
+                        .withInterval(10)
+                        .withFace(4)
+                        .withMoodValue(-20)
+                        .withSound("scaredtalk")
+                        .withMessages(new string[3]
+                        {
+                            "WOWSTEST TUMMY OWWIES!",
+                            "huu huu... daddeh, hewp <name>...",
+                            "huu huu huu... *cough*"
+                        }).build();
+                    EffectScript effectScript = Plant.transform.GetChild(0).gameObject.GetComponent<EffectScript>();
+                    effectScript = effect;
                 }
                 Name += "flowers";
-            } else
+            }
+            else
             {
                 Name = "tallgrass";
                 Plant.GetComponent<FoodScript>().Message = "wan' gud nummies...";
@@ -174,5 +198,5 @@ public class PlantGrowth : MonoBehaviour {
             Plant.GetComponent<PlantScript>().TileName = Name;
             gameObject.transform.parent.GetChild(3).GetComponent<Tilemap>().SetTile(Vector3Int.FloorToInt(new Vector3(TilePosition.x, TilePosition.y + 1, 0)), (Tile)Resources.Load(Name));
         }
-        }
+    }
 }

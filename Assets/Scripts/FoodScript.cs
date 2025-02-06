@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class FoodScript : MonoBehaviour
 {
-
     public float Hunger;
 
     public string Message;

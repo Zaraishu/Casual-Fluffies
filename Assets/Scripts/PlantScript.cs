@@ -19,7 +19,7 @@ public class PlantScript : MonoBehaviour {
             Destroy(gameObject);
         }
     }
-    // Update is called once per frame
+
     void OnDestroy () {
         if (GameObject.Find("Plants"))
         {
