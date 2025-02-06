@@ -1,6 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+/**
+ * <summary>
+ * Enumeration of fluffy sexes.
+ * </summary>
+ */
+public enum Sex
+{
+    Female,
+    Male
+}
 
 /**
  * <summary>
@@ -15,7 +22,7 @@ public enum Motivator
     Enf,
     Hit,
     NurseFrom,
-    HitOn
+    HitOn   // Trying to have sex
 }
 /**
  * <summary>
@@ -29,4 +36,10 @@ public enum FluffyState
     GivingBirth,
     ApproachingTarget,
     FleeingFromTarget
+}
+
+public enum Direction
+{
+    Left = -1,
+    Right = 1
 }
