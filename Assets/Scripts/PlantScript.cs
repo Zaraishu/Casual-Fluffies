@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class PlantScript : MonoBehaviour {
-
-    public string TileName;
+public class PlantScript : Food
+{
+    public string TileName { get; set; }
 
     private void Start()
     {
@@ -14,21 +12,29 @@ public class PlantScript : MonoBehaviour {
 
     private void Update()
     {
-        if (GameObject.Find("Plants").GetComponent<Tilemap>().GetTile(Vector3Int.FloorToInt(gameObject.transform.position)) != (Tile)(Resources.Load(TileName)))
+        if (FindPlantsTilemap().GetTile(Vector3Int.FloorToInt(gameObject.transform.position)) != (Tile)(Resources.Load(TileName)))
         {
             Destroy(gameObject);
         }
     }
 
-    void OnDestroy () {
-        if (GameObject.Find("Plants"))
-        {
-            GameObject.Find("Plants").GetComponent<Tilemap>().SetTile(Vector3Int.FloorToInt(gameObject.transform.position), null);
-        }
+    void OnDestroy()
+    {
+        FindPlantsTilemap().SetTile(Vector3Int.FloorToInt(gameObject.transform.position), null);
     }
 
     void Clean()
     {
-        GameObject.Find("Splatters").GetComponent<Tilemap>().SetTile(Vector3Int.FloorToInt(gameObject.transform.position - new Vector3(0, 1, 0)), null);
+        FindSplattersTilemap().SetTile(Vector3Int.FloorToInt(gameObject.transform.position - new Vector3(0, 1, 0)), null);
+    }
+
+    private Tilemap FindPlantsTilemap()
+    {
+        return GameObject.Find("Grid").transform.GetChild(3).GetComponent<Tilemap>();
+    }
+
+    private Tilemap FindSplattersTilemap()
+    {
+        return GameObject.Find("Grid").transform.GetChild(2).GetComponent<Tilemap>();
     }
 }

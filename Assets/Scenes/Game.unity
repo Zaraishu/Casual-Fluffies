@@ -912,28 +912,7 @@ MonoBehaviour:
   Description: Have you ever wanted to get your fluffies drunk? Now, you can.
   Sprite: Items/Food/booze
   Number: 0
-  Food:
-    Hunger: 30
-    Message: eww! dis am icky wawa!
-    CannibalMessage: 
-    Sprite: Items/Food/booze
-    Tag: Food
-    HasEffect: 1
-    Sound: 
-    EffectMessage:
-    - hee hee... <name> feew funny!
-    - eee! hee hee hee hee!
-    - <name> faww obah!
-    Bleed: 0
-    Poop: 0
-    Pose: Trip
-    Face: 0
-    Poison: -0.2
-    Duration: 80
-    PoseTime: 3
-    Interval: 10
-    MoodValue: 0
-    Vomit: 0
+  Food: {fileID: 0}
 --- !u!114 &43038185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3664,6 +3643,36 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &250448645
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 250448646}
+  m_Layer: 0
+  m_Name: Fluffies
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &250448646
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 250448645}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.111834, y: -1.3532908, z: -1.955159}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &250776739
 GameObject:
   m_ObjectHideFlags: 0
@@ -7811,33 +7820,14 @@ MonoBehaviour:
   Feeding: 0
   Spawning: 0
   Money: 0
-  Food:
-    Hunger: 0
-    Message: 
-    CannibalMessage: 
-    Sprite: 
-    Tag: 
-    HasEffect: 0
-    Sound: 
-    EffectMessage: []
-    Bleed: 0
-    Poop: 0
-    Pose: 
-    Face: 0
-    Poison: 0
-    Duration: 0
-    PoseTime: 0
-    Interval: 0
-    MoodValue: 0
-    Vomit: 0
+  Food: {fileID: 0}
   BuildTile: 
   Layer: 
   BuildSprite: 
   Prefab: 
   Selector: {fileID: 0}
   SelectedObject: {fileID: 0}
-  hintText: {fileID: 0}
-  textScript: {fileID: 0}
+  hintTextScript: {fileID: 0}
 --- !u!82 &519420034
 AudioSource:
   m_ObjectHideFlags: 0
@@ -11401,28 +11391,7 @@ MonoBehaviour:
     that eats them bleed out of every orifice for a while.
   Sprite: Items/Food/redflowers
   Number: 0
-  Food:
-    Hunger: 25
-    Message: pwetty nummies!
-    CannibalMessage: dis tu pwetty fow nummies!
-    Sprite: Items/Food/redflowers
-    Tag: Food
-    HasEffect: 1
-    Sound: scaredtalk
-    EffectMessage:
-    - WOWSTEST TUMMY OWWIES!
-    - huu huu... daddeh, hewp <name>...
-    - huu huu huu... *cough*
-    Bleed: 1
-    Poop: 0
-    Pose: Pant
-    Face: 4
-    Poison: -0.75
-    Duration: 20
-    PoseTime: 5
-    Interval: 10
-    MoodValue: -20
-    Vomit: 0
+  Food: {fileID: 0}
 --- !u!114 &724172017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11648,25 +11617,7 @@ MonoBehaviour:
     once in a while.
   Sprite: Items/Food/flowers
   Number: 0
-  Food:
-    Hunger: 25
-    Message: pwetty nummies!
-    CannibalMessage: dis tu pwetty fow nummies!
-    Sprite: Items/Food/flowers
-    Tag: Food
-    HasEffect: 0
-    Sound: 
-    EffectMessage: []
-    Bleed: 0
-    Poop: 0
-    Pose: 
-    Face: 0
-    Poison: 0
-    Duration: 0
-    PoseTime: 0
-    Interval: 0
-    MoodValue: 0
-    Vomit: 0
+  Food: {fileID: 0}
 --- !u!114 &724458206
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16190,28 +16141,7 @@ MonoBehaviour:
     all your fluffies the shits.
   Sprite: Items/Food/whitemushrooms
   Number: 0
-  Food:
-    Hunger: 30
-    Message: dis am funny nummies!
-    CannibalMessage: what dis? wooks stoopie...
-    Sprite: Items/Food/whitemushrooms
-    Tag: Food
-    HasEffect: 1
-    Sound: scree
-    EffectMessage:
-    - HUWTIE POOPIES! SCREEEEEE!
-    - WHY POOPIES GIB HUWTIES? HUU HUU HUU!
-    - WOWSTEST POOPIE HUWTIES!
-    Bleed: 0
-    Poop: 1
-    Pose: Poop
-    Face: 4
-    Poison: -0.4
-    Duration: 40
-    PoseTime: 5
-    Interval: 15
-    MoodValue: -10
-    Vomit: 0
+  Food: {fileID: 0}
 --- !u!114 &1057511950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16993,25 +16923,7 @@ MonoBehaviour:
     highly addictive to fluffies.
   Sprite: Items/Food/meat
   Number: 0
-  Food:
-    Hunger: 60
-    Message: what dis? <name> kinda wike it...
-    CannibalMessage: '*munch munch*'
-    Sprite: Items/Food/meat
-    Tag: Corpse
-    HasEffect: 0
-    Sound: 
-    EffectMessage: []
-    Bleed: 0
-    Poop: 0
-    Pose: 
-    Face: 0
-    Poison: 0
-    Duration: 0
-    PoseTime: 0
-    Interval: 0
-    MoodValue: 0
-    Vomit: 0
+  Food: {fileID: 0}
 --- !u!114 &1112276207
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51470,25 +51382,7 @@ MonoBehaviour:
   Description: Bland, ordinary kibble. Filling, but tasteless.
   Sprite: Items/Food/kibble
   Number: 0
-  Food:
-    Hunger: 60
-    Message: '*crunch crunch*'
-    CannibalMessage: '*crunch* <name> nu wike! wan'' dummeh fwuffies, nu cwunchy-poopies!'
-    Sprite: Items/Food/kibble
-    Tag: Food
-    HasEffect: 0
-    Sound: 
-    EffectMessage: []
-    Bleed: 0
-    Poop: 0
-    Pose: 
-    Face: 0
-    Poison: 0
-    Duration: 0
-    PoseTime: 0
-    Interval: 0
-    MoodValue: 0
-    Vomit: 0
+  Food: {fileID: 0}
 --- !u!114 &1493174712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51794,28 +51688,7 @@ MonoBehaviour:
     eating them.
   Sprite: Items/Food/redberries
   Number: 0
-  Food:
-    Hunger: 45
-    Message: <name> wub sweetie nummies!
-    CannibalMessage: eww! tu sweetie!
-    Sprite: Items/Food/redberries
-    Tag: Food
-    HasEffect: 1
-    Sound: scaredtalk
-    EffectMessage:
-    - bad tummy feews- *HURK*
-    - '*cough cough* daddeh, <name> hab sickies...'
-    - huu huu huu! nu wan' make sickie wawas nu mowe- *HURK*
-    Bleed: 0
-    Poop: 0
-    Pose: Poop
-    Face: 10
-    Poison: -0.2
-    Duration: 80
-    PoseTime: 5
-    Interval: 20
-    MoodValue: -15
-    Vomit: 1
+  Food: {fileID: 0}
 --- !u!114 &1506518992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52940,25 +52813,7 @@ MonoBehaviour:
   Description: Fresh, wild berries. The spaghetti of the feral world.
   Sprite: Items/Food/berries
   Number: 0
-  Food:
-    Hunger: 45
-    Message: <name> wub sweetie nummies!
-    CannibalMessage: eww! tu sweetie!
-    Sprite: Items/Food/berries
-    Tag: Food
-    HasEffect: 0
-    Sound: 
-    EffectMessage: []
-    Bleed: 0
-    Poop: 0
-    Pose: 
-    Face: 0
-    Poison: 0
-    Duration: 0
-    PoseTime: 0
-    Interval: 0
-    MoodValue: 0
-    Vomit: 0
+  Food: {fileID: 0}
 --- !u!114 &1589391050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54548,28 +54403,7 @@ MonoBehaviour:
     and cleaning up after a period of starvation.
   Sprite: Items/Food/cannibalcide
   Number: 0
-  Food:
-    Hunger: 60
-    Message: huu huu... nu wan' icky wawa...
-    CannibalMessage: what dis pwetty wawa?
-    Sprite: Items/Food/cannibalcide
-    Tag: Food
-    HasEffect: 1
-    Sound: scree
-    EffectMessage:
-    - SCREEEEEEEEEEEEE!
-    - HEWP! PWEASE! SCREEEEEEEEEEEEEEEEE!
-    - WAN' DIE! WAN' DIE! SCREEEEEEEEEEEEEEEEE!
-    Bleed: 1
-    Poop: 0
-    Pose: Cower
-    Face: 10
-    Poison: -2.5
-    Duration: 80
-    PoseTime: 5
-    Interval: 5
-    MoodValue: -100
-    Vomit: 0
+  Food: {fileID: 0}
 --- !u!114 &1660837939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54946,28 +54780,7 @@ MonoBehaviour:
   Description: A medley of all the stuff that gets fluffies baked in the wild.
   Sprite: Items/Food/drugs
   Number: 0
-  Food:
-    Hunger: 60
-    Message: ooh! what dis pwetty nummies?
-    CannibalMessage: eww! nu wike dummeh nummies!
-    Sprite: Items/Food/drugs
-    Tag: Food
-    HasEffect: 1
-    Sound: happytalk
-    EffectMessage:
-    - '*munch* nummies, come back!'
-    - '*wiggle wiggle* siwwy weggies! buddah weggies nu gud fow wawkies!'
-    - huu huu... <name> hab scawedies!
-    Bleed: 0
-    Poop: 0
-    Pose: Lay
-    Face: 0
-    Poison: -0.1
-    Duration: 60
-    PoseTime: 5
-    Interval: 10
-    MoodValue: -5
-    Vomit: 0
+  Food: {fileID: 0}
 --- !u!114 &1675739361
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56415,28 +56228,7 @@ MonoBehaviour:
     it will die a slow, painful death. Great for observing intense, jarring pain.
   Sprite: Items/Food/flufficide
   Number: 0
-  Food:
-    Hunger: 60
-    Message: what dis pwetty wawa?
-    CannibalMessage: huu huu... nu wan' icky wawa...
-    Sprite: Items/Food/flufficide
-    Tag: Food
-    HasEffect: 1
-    Sound: scree
-    EffectMessage:
-    - SCREEEEEEEEEEEEE!
-    - HEWP! PWEASE! SCREEEEEEEEEEEEEEEEE!
-    - WAN' DIE! WAN' DIE! SCREEEEEEEEEEEEEEEEE!
-    Bleed: 1
-    Poop: 0
-    Pose: Cower
-    Face: 10
-    Poison: -2.5
-    Duration: 80
-    PoseTime: 5
-    Interval: 5
-    MoodValue: -100
-    Vomit: 0
+  Food: {fileID: 0}
 --- !u!114 &1757508509
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56570,13 +56362,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f0a351d076cba944bb27122d7450d40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SunPosition: 0
+  SunPosition: -18
   DayTime: 0
-  Day: 0
+  Day: 1
   Days: 0
-  Season: 0
+  Season:
+    id: 0
   Years: 0
   SunHeight: 0
+  sunSprite: {fileID: 0}
+  moonSprite: {fileID: 0}
+  references:
+    version: 1
+    00000000:
+      type: {class: , ns: , asm: }
 --- !u!1 &1762439314
 GameObject:
   m_ObjectHideFlags: 0
@@ -56841,25 +56640,7 @@ MonoBehaviour:
   Description: Fresh lawn clippings. Great for treating your fluffies like shit!
   Sprite: Items/Food/clippings
   Number: 0
-  Food:
-    Hunger: 20
-    Message: nu wike gweenie-nummies!
-    CannibalMessage: nu wike icky dummeh nummies!
-    Sprite: Items/Food/clippings
-    Tag: Food
-    HasEffect: 0
-    Sound: 
-    EffectMessage: []
-    Bleed: 0
-    Poop: 0
-    Pose: 
-    Face: 0
-    Poison: 0
-    Duration: 0
-    PoseTime: 0
-    Interval: 0
-    MoodValue: 0
-    Vomit: 0
+  Food: {fileID: 0}
 --- !u!114 &1772789500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57453,25 +57234,7 @@ MonoBehaviour:
   Description: A common variety of mushroom often enjoyed by feral fluffies.
   Sprite: Items/Food/mushrooms
   Number: 0
-  Food:
-    Hunger: 30
-    Message: dis am funny nummies!
-    CannibalMessage: what dis? wooks stoopie...
-    Sprite: Items/Food/mushrooms
-    Tag: Food
-    HasEffect: 0
-    Sound: 
-    EffectMessage: []
-    Bleed: 0
-    Poop: 0
-    Pose: 
-    Face: 0
-    Poison: 0
-    Duration: 0
-    PoseTime: 0
-    Interval: 0
-    MoodValue: 0
-    Vomit: 0
+  Food: {fileID: 0}
 --- !u!114 &1792604072
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57585,6 +57348,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1799167456}
   m_CullTransparentMesh: 0
+--- !u!1 &1811087850
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1811087851}
+  m_Layer: 0
+  m_Name: PlantHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1811087851
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1811087850}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.111834, y: -1.3532908, z: -1.955159}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1815175055
 GameObject:
   m_ObjectHideFlags: 0
@@ -59410,13 +59203,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e118c5f2a0a4f942b0c56de86419c43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Berries: 0
-  Flowers: 0
-  Mushrooms: 0
-  Grass: 0
-  Safe: 0
-  Toxic: 0
-  Hallucinogenic: 0
 --- !u!483693784 &1951290750
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -60488,25 +60274,7 @@ MonoBehaviour:
     where it came from.
   Sprite: Items/Food/poop
   Number: 0
-  Food:
-    Hunger: 30
-    Message: huu huu huu... nu wan' num poopies...
-    CannibalMessage: 
-    Sprite: Items/Food/poop
-    Tag: Food
-    HasEffect: 0
-    Sound: 
-    EffectMessage: []
-    Bleed: 0
-    Poop: 0
-    Pose: 
-    Face: 0
-    Poison: 0
-    Duration: 0
-    PoseTime: 0
-    Interval: 0
-    MoodValue: 0
-    Vomit: 0
+  Food: {fileID: 0}
 --- !u!114 &2021396095
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62034,25 +61802,7 @@ MonoBehaviour:
     but it's not very nutritious.
   Sprite: Items/Food/sketties
   Number: 0
-  Food:
-    Hunger: 30
-    Message: SKETTIES! *munch munch munch munch*
-    CannibalMessage: <name> wan' tummeh sketties, nu dis dummeh sketties!
-    Sprite: Items/Food/sketties
-    Tag: Food
-    HasEffect: 0
-    Sound: 
-    EffectMessage: []
-    Bleed: 0
-    Poop: 0
-    Pose: 
-    Face: 0
-    Poison: 0
-    Duration: 0
-    PoseTime: 0
-    Interval: 0
-    MoodValue: 0
-    Vomit: 0
+  Food: {fileID: 0}
 --- !u!114 &2141650134
 MonoBehaviour:
   m_ObjectHideFlags: 0

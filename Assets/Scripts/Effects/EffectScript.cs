@@ -5,56 +5,56 @@ using UnityEngine;
 public class EffectScript : MonoBehaviour
 {
 
-    public string sound;
-    public string[] message;
-    public bool bleed;
-    public bool poop;
-    public string pose;
-    public int face;
-    public float poison;
-    public float duration;
-    public int poseTime;
-    public float interval;
-    public float moodValue;
-    public bool vomit;
-    public int action;
-    public int state;
-    public int speed;
-    GameObject fluffy;
+    public string Sound;
+    public string[] Message;
+    public bool Bleed;
+    public bool Poop;
+    public string Pose;
+    public int Face;
+    public float Poison;
+    public float Duration;
+    public int PoseTime;
+    public float Interval;
+    public float MoodValue;
+    public bool Vomit;
+    public int Action;
+    public int State;
+    public int Speed;
+    GameObject Fluffy;
 
     private static Builder builder;
 
     void Start()
     {
-        fluffy = gameObject.transform.parent.gameObject;
-        InvokeRepeating("Effect", interval, interval);
-        Invoke("End", duration);
+        Fluffy = gameObject.transform.parent.gameObject;
+        InvokeRepeating("Effect", Interval, Interval);
+        Invoke("End", Duration);
     }
 
     private void Update()
     {
-        fluffy.GetComponent<FluffyVariables>().Health += poison * Time.deltaTime;
+        Fluffy.GetComponent<FluffyVariables>().Health += Poison * Time.deltaTime;
     }
 
     void Effect()
     {
-        fluffy.GetComponent<FluffyScript>().PlaySound(sound, true);
-        if (poop)
+        Fluffy.GetComponent<FluffyScript>().PlaySound(Sound, true);
+        if (Poop)
         {
-            fluffy.GetComponent<FluffyScript>().Poop();
+            Fluffy.GetComponent<FluffyScript>().Poop();
         }
-        if (bleed)
+        if (Bleed)
         {
-            fluffy.GetComponent<FluffyScript>().Bleed();
+            Fluffy.GetComponent<FluffyScript>().Bleed();
         }
-        if (vomit)
+        if (Vomit)
         {
-            fluffy.GetComponent<FluffyScript>().Vomit();
+            Fluffy.GetComponent<FluffyScript>().Vomit();
         }
-        fluffy.GetComponent<FluffyScript>().SetDirection(Random.Range(0, 2));
-        fluffy.GetComponent<FluffyScript>().Mood += moodValue;
-        fluffy.GetComponent<FluffyScript>().FluffyEvent(state, action, null, poseTime, pose, speed, face, false);
-        fluffy.GetComponent<FluffyScript>().Message(message[Random.Range(0, message.Length)], null, null, "fwuffy");
+        Fluffy.GetComponent<FluffyScript>().SetDirection(Random.Range(0, 2));
+        Fluffy.GetComponent<FluffyScript>().Mood += MoodValue;
+        Fluffy.GetComponent<FluffyScript>().FluffyEvent(State, Action, null, PoseTime, Pose, Speed, Face, false);
+        Fluffy.GetComponent<FluffyScript>().Say(Message[Random.Range(0, Message.Length)], null, null, "fwuffy");
     }
 
     void End()
@@ -68,97 +68,97 @@ public class EffectScript : MonoBehaviour
 
         public Builder withSound(string sound)
         {
-            effectScript.sound = sound;
+            effectScript.Sound = sound;
             return this;
         }
 
         public Builder withMessages(string[] messages)
         {
-            effectScript.message = messages;
+            effectScript.Message = messages;
             return this;
         }
 
         public Builder withBleed()
         {
-            effectScript.bleed = true;
+            effectScript.Bleed = true;
             return this;
         }
 
         public Builder withPoop()
         {
-            effectScript.poop = true;
+            effectScript.Poop = true;
             return this;
         }
 
         public Builder withPose(string pose)
         {
-            effectScript.pose = pose;
+            effectScript.Pose = pose;
             return this;
         }
 
         public Builder withFace(int face)
         {
-            effectScript.face = face;
+            effectScript.Face = face;
             return this;
         }
 
         public Builder withPoison(float poison)
         {
-            effectScript.poison = poison;
+            effectScript.Poison = poison;
             return this;
         }
 
         public Builder withDuration(float duration)
         {
-            effectScript.duration = duration;
+            effectScript.Duration = duration;
             return this;
         }
 
         public Builder withPoseTime(int poseTime)
         {
-            effectScript.poseTime = poseTime;
+            effectScript.PoseTime = poseTime;
             return this;
         }
 
         public Builder withInterval(float interval)
         {
-            effectScript.interval = interval;
+            effectScript.Interval = interval;
             return this;
         }
 
         public Builder withMoodValue(float moodValue)
         {
-            effectScript.moodValue = moodValue;
+            effectScript.MoodValue = moodValue;
             return this;
         }
 
         public Builder withVomit()
         {
-            effectScript.vomit = true;
+            effectScript.Vomit = true;
             return this;
         }
 
         public Builder withAction(int action)
         {
-            effectScript.action = action;
+            effectScript.Action = action;
             return this;
         }
 
         public Builder withState(int state)
         {
-            effectScript.state = state;
+            effectScript.State = state;
             return this;
         }
 
 
         public Builder withSpeed(int speed)
         {
-            effectScript.speed = speed;
+            effectScript.Speed = speed;
             return this;
         }
         public Builder withFluffy(GameObject fluffy)
         {
-            effectScript.fluffy = fluffy;
+            effectScript.Fluffy = fluffy;
             return this;
         }
 

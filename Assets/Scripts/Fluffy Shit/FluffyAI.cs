@@ -72,8 +72,8 @@ public class FluffyAI : MonoBehaviour
                                     Names[0] = OtherFluffy.Needs.Name;
                                     string[] Subs = new string[1];
                                     Subs[0] = "fwend";
-                                    OtherFluffy.Message("<name0>, nu! nu am sweepie time wite nao! huu huu...", Names, Subs, null);
-                                    hit.transform.GetChild(0).GetComponent<BirthEvent>().SetFace(4);
+                                    OtherFluffy.Say(FluffSpeak.NuAmSweepieTimeWiteNao, Names, Subs, null);
+                                    hit.transform.GetChild(0).GetComponent<AnimationEvent>().SetFace(4);
                                     OtherFluffy.Mood = 0;
                                     //Make them remember that it's dead.
                                     Relationship Bond = new Relationship
@@ -206,7 +206,7 @@ public class FluffyAI : MonoBehaviour
                     if (Random.Range(0, 3) == 0)
                     {
                         Fluffy.PlaySound("ow", true);
-                        Fluffy.Message(FluffSpeak.Eep, null, null, null);
+                        Fluffy.Say(FluffSpeak.Eep, null, null, null);
                         Fluffy.FluffyEvent(0, 0, null, 3, "Trip", 2, 10, false);
                     }
                 }
@@ -218,11 +218,11 @@ public class FluffyAI : MonoBehaviour
             //Set a default face.
             if (Needs.Age > 200)
             {
-                transform.GetChild(0).GetComponent<BirthEvent>().SetFace(0);
+                transform.GetChild(0).GetComponent<AnimationEvent>().SetFace(0);
             }
             else
             {
-                transform.GetChild(0).GetComponent<BirthEvent>().SetFace(8);
+                transform.GetChild(0).GetComponent<AnimationEvent>().SetFace(8);
             }
             //If it's falling or being held, don't actually do anything.
             if (Fluffy.Falling == true || Fluffy.Held == true)
@@ -231,7 +231,7 @@ public class FluffyAI : MonoBehaviour
                 if (Fluffy.Held == false)
                 {
                     Fluffy.PlaySound("scree", true);
-                    Fluffy.Message(FluffSpeak.EEEEEE, null, null, null);
+                    Fluffy.Say(FluffSpeak.EEEEEE, null, null, null);
                     Fluffy.FluffyEvent(0, 0, null, 5, "Fall", 2, 10, true);
                 }
             }
@@ -241,7 +241,7 @@ public class FluffyAI : MonoBehaviour
                 if (Needs.Gestation >= 210 && Fluffy.State != (int)FluffyState.GivingBirth)
                 {
                     Fluffy.PlaySound("scaredtalk", true);
-                    Fluffy.Message(FluffSpeak.TummyOwies, null, null, null);
+                    Fluffy.Say(FluffSpeak.TummyOwies, null, null, null);
                     Fluffy.FrozenState = true;
                     Fluffy.FluffyEvent(2, 0, null, 6, "Breathe", 2, 4, true);
                     Needs.Lactating = true;
@@ -264,7 +264,7 @@ public class FluffyAI : MonoBehaviour
                         else
                         {
                             Fluffy.PlaySound("scree", true);
-                            Fluffy.Message(FluffSpeak.BiggestPoopies, null, null, null);
+                            Fluffy.Say(FluffSpeak.BiggestPoopies, null, null, null);
                             Fluffy.FluffyEvent(2, 0, null, 5, "Give Birth", 2, 10, true);
                             Needs.Miscarrying = false;
                         }
@@ -277,14 +277,14 @@ public class FluffyAI : MonoBehaviour
                             if (Needs.Morality <= 20 && Needs.Sexuality >= 70)
                             {
                                 Fluffy.PlaySound("sadtalk", true);
-                                Fluffy.Message(FluffSpeak.HabTummyOwies, null, null, "fwuffy");
+                                Fluffy.Say(FluffSpeak.HabTummyOwies, null, null, "fwuffy");
                                 Fluffy.FluffyEvent(0, 0, null, 5, "Lay", 2, 11, false);
                                 Fluffy.Mood -= 50;
                             }
                             else
                             {
                                 Fluffy.PlaySound("scree", true);
-                                Fluffy.Message(FluffSpeak.BabbehsStayInMummah, null, null, null);
+                                Fluffy.Say(FluffSpeak.BabbehsStayInMummah, null, null, null);
                                 Fluffy.FluffyEvent(0, 0, null, 5, "Pant", 2, 4, false);
                                 Fluffy.Mood -= 50;
                             }
@@ -373,13 +373,13 @@ public class FluffyAI : MonoBehaviour
                                                 Names[0] = Victim.Needs.Name;
                                                 if (Victim.Needs.Age >= 300)
                                                 {
-                                                    Subs[0] = "DUMMEH MAWE";
+                                                    Subs[0] = FluffSpeak.DummehMawe;
                                                 }
                                                 else
                                                 {
-                                                    Subs[0] = "DUMMEH BABBEH";
+                                                    Subs[0] = FluffSpeak.DummehBabbeh;
                                                 }
-                                                Fluffy.Message("<NAME> WAN' SPESHUW HUGGIES WIF <NAME0>!", Names, Subs, "FWUFFY");
+                                                Fluffy.Say(FluffSpeak.WanSpeshuwHuggies, Names, Subs, "FWUFFY");
                                                 if (Victim.Needs.Decency > 40)
                                                 {
                                                     // TODO: The SexDrive variable is set to 0 by the FluffyScript.Mate() method.
@@ -387,20 +387,20 @@ public class FluffyAI : MonoBehaviour
                                                     Victim.Needs.SexDrive = 0;
                                                     Victim.FluffyEvent(4, 0, Fluffy.gameObject, 5, "Run", 4, 4, false);
                                                     Victim.PlaySound("scree", true);
-                                                    Victim.Message(FluffSpeak.NUUUU, null, null, null);
+                                                    Victim.Say(FluffSpeak.NUUUU, null, null, null);
                                                 }
                                                 else
                                                 {
                                                     Victim.FluffyEvent(0, 0, null, 5, "Stand", 2, 3, false);
                                                     Victim.PlaySound("happytalk", true);
-                                                    Victim.Message("huh?", null, null, null);
+                                                    Victim.Say(FluffSpeak.Huh, null, null, null);
                                                 }
                                             }
                                             else
                                             {
                                                 Fluffy.PlaySound("angrytalk", true);
                                                 Fluffy.FluffyEvent(1, 0, null, 5, "Run", 4, 6, false);
-                                                Fluffy.Message("DUMMEH MAWES COME OUT! <NAME> WAN' SPESHUW HUGGIES WITE NAO!", null, null, "FWUFFY");
+                                                Fluffy.Say(FluffSpeak.DummehMawesComeOut, null, null, "FWUFFY");
                                             }
                                         }
                                     }
@@ -445,13 +445,13 @@ public class FluffyAI : MonoBehaviour
                                                 if (HasChild == false)
                                                 {
                                                     Fluffy.PlaySound("sadtalk", true);
-                                                    Fluffy.Message("nu hab nu mowe babbehs fow gib miwkies... am wowstest mummah...", null, null, null);
+                                                    Fluffy.Say(FluffSpeak.NuHabNuMoweBabbehs, null, null, null);
                                                     Fluffy.FluffyEvent(0, 0, null, 3, "Lay", 4, 3, false);
                                                 }
                                                 else
                                                 {
                                                     Fluffy.PlaySound("sadtalk", true);
-                                                    Fluffy.Message("<name> nee' gu back tu babbehs! whewe babbehs?", null, null, "fwuffy");
+                                                    Fluffy.Say(FluffSpeak.WheweBabbehs, null, null, "fwuffy");
                                                     if (!Needs.NoEyes)
                                                     {
                                                         Fluffy.FluffyEvent(1, 0, null, 3, "Run", 4, 1, false);
@@ -543,7 +543,7 @@ public class FluffyAI : MonoBehaviour
             {
                 Fluffy.FluffyEvent(0, 0, null, 5, "Lay", 2, 8, false);
                 Fluffy.PlaySound("happytalk", true);
-                Fluffy.Message(FluffSpeak.PeepPeep, null, null, null);
+                Fluffy.Say(FluffSpeak.PeepPeep, null, null, null);
             }
         }
         else if (Action == 2)
@@ -554,13 +554,13 @@ public class FluffyAI : MonoBehaviour
                 {
                     Fluffy.PlaySound("sadtalk", true);
                     Fluffy.FluffyEvent(0, 0, null, 5, "Lay", 2, 3, false);
-                    Fluffy.Message(FluffSpeak.NuCanMakeGudWalkiesAnWunnies, null, null, "fwuffy");
+                    Fluffy.Say(FluffSpeak.NuCanMakeGudWalkiesAnWunnies, null, null, "fwuffy");
                 }
                 else if (Fluffy.Needs.Health < 50)
                 {
                     Fluffy.PlaySound("sadtalk", true);
                     Fluffy.FluffyEvent(0, 0, null, 5, "Lay", 2, 3, false);
-                    Fluffy.Message(FluffSpeak.HabWowstestHuwties, null, null, "fwuffy");
+                    Fluffy.Say(FluffSpeak.HabWowstestHuwties, null, null, "fwuffy");
                 }
                 else
                 {
@@ -573,7 +573,7 @@ public class FluffyAI : MonoBehaviour
                     {
                         Fluffy.FluffyEvent(1, 0, null, 3, "Walk", 2, 3, false);
                         Fluffy.PlaySound("sadtalk", true);
-                        Fluffy.Message(FluffSpeak.GottaGuSwow, null, null, "fwuffy");
+                        Fluffy.Say(FluffSpeak.GottaGuSwow, null, null, "fwuffy");
                     }
                 }
             }
@@ -592,13 +592,13 @@ public class FluffyAI : MonoBehaviour
                     if (Needs.Sexuality <= 70)
                     {
                         Fluffy.PlaySound("sing", true);
-                        Fluffy.Message(FluffSpeak.MummahSong, null, null, null);
+                        Fluffy.Say(FluffSpeak.MummahSong, null, null, null);
                         Fluffy.FluffyEvent(0, 0, null, 5, "Lay", 2, 0, false);
 
                     } else if (Needs.Morality <= 20)
                         {
                             Fluffy.PlaySound("sadtalk", true);
-                            Fluffy.Message(FluffSpeak.NuWanHabStupidDummehBabbehs, null, null, null);
+                            Fluffy.Say(FluffSpeak.NuWanHabStupidDummehBabbehs, null, null, null);
                             Fluffy.FluffyEvent(0, 0, null, 5, "Lay", 2, 5, false);
 
                         }

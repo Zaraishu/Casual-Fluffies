@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 /**
  * Script for displaying fluffy messages.
@@ -36,6 +34,7 @@ public class MessageScript : MonoBehaviour {
     
     void DestroyObject()
     {
+        Number --;
         Destroy(gameObject);
     }
 }

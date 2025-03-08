@@ -9,7 +9,7 @@ public class FoodButton : MonoBehaviour
     public string Description;
     public string Sprite;
     public int Number;
-    public FoodPreset Food;
+    public FoodItem Food;
 
     // Update is called once per frame
     public void SetSprite()

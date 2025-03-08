@@ -37,7 +37,7 @@ public class FluffyVariables
     public int Sex;
     // Is a float variable actually necessary, or does an integer do the job?
     public float Age;
-    public string Name = "fluffy";
+    public string Name;
     public int ID;
     public string Description;
 

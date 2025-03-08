@@ -22,7 +22,7 @@ public class FanScript : MonoBehaviour {
                     FluffyScript Fluffy = collision.gameObject.GetComponent<FluffyScript>();
                     Fluffy.Needs.Health -= 25;
                     Fluffy.PlaySound("scree", true);
-                    Fluffy.Message("SCREEEEEEEEEEE!", null, null, null);
+                    Fluffy.Say("SCREEEEEEEEEEE!", null, null, null);
                 } else if (collision.gameObject.CompareTag("Corpse"))
                 {
                     if (collision.gameObject.transform.parent != null)

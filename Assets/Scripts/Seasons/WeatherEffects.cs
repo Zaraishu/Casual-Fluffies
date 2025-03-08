@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class WeatherEffects : MonoBehaviour
 {
@@ -20,11 +18,10 @@ public class WeatherEffects : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
         gameObject.GetComponent<RectTransform>().localPosition += new Vector3(0, Speed * Time.deltaTime, 0);
-        if (Continuous == true)
+        if (Continuous)
         {
             if (gameObject.GetComponent<RectTransform>().localPosition.y <= -12)
             {

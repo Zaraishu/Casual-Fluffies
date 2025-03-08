@@ -2447,6 +2447,8 @@ MonoBehaviour:
   Speed: 0
   Size: 0
   Target: {fileID: 0}
+  Needs:
+    id: 0
   motivator: 0
   FrozenState: 0
   Falling: 0
@@ -2454,6 +2456,67 @@ MonoBehaviour:
   Mood: 0
   LimbNumber: 0
   LoadedIn: 0
+  references:
+    version: 1
+    00000000:
+      type: {class: FluffyVariables, ns: , asm: Assembly-CSharp}
+      data:
+        Morality: 0
+        Decency: 0
+        Cannibalism: 0
+        Sexuality: 0
+        IsCannibal: 0
+        Hunger: 0
+        Thirst: 0
+        Poop: 0
+        Health: 0
+        SexDrive: 0
+        Milk: 0
+        Lactating: 0
+        LactationTime: 0
+        Gestation: 0
+        Pregnant: 0
+        FoalNumber: 0
+        Miscarrying: 0
+        Sex: 0
+        Age: 0
+        Name: 
+        ID: 0
+        Description: 
+        Race: 0
+        BaseColor: {r: 0, g: 0, b: 0, a: 0}
+        ManeColor: {r: 0, g: 0, b: 0, a: 0}
+        EyeColor: {r: 0, g: 0, b: 0, a: 0}
+        CutieMarkColor: {r: 0, g: 0, b: 0, a: 0}
+        HairType: 0
+        Size: 0
+        Relationships: []
+        NoEyes: 0
+        NoEarR: 0
+        NoEarL: 0
+        NoFrontLegR: 0
+        NoFrontLegL: 0
+        NoBackLegR: 0
+        NoBackLegL: 0
+        NoTail: 0
+        NoHorn: 0
+        NoWings: 0
+        NoCutieMark: 0
+        RaceGenes: 0000000000000000
+        AlicornGenes: 0000
+        BaseGenes:
+        - {r: 0, g: 0, b: 0, a: 0}
+        - {r: 0, g: 0, b: 0, a: 0}
+        ManeGenes:
+        - {r: 0, g: 0, b: 0, a: 0}
+        - {r: 0, g: 0, b: 0, a: 0}
+        EyeGenes:
+        - {r: 0, g: 0, b: 0, a: 0}
+        - {r: 0, g: 0, b: 0, a: 0}
+        HairGenes: 0000000000000000
+        SizeGenes:
+        - 0
+        - 0
 --- !u!1 &1962497889729856
 GameObject:
   m_ObjectHideFlags: 0

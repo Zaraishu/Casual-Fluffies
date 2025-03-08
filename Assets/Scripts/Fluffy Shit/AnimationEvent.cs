@@ -2,7 +2,7 @@
 using UnityEngine;
 
 // Formerly AnimEvents. Was probably used to animate different events, but only the birth was finished.
-public class BirthEvent : MonoBehaviour {
+public class AnimationEvent : MonoBehaviour {
 
     GameObject head;
     GameObject eye;
@@ -346,7 +346,7 @@ public class BirthEvent : MonoBehaviour {
                 newFoal.GetComponent<FluffyScript>().Die();
                 transform.parent.GetComponent<FluffyVariables>().Health -= 25;
                 transform.parent.GetComponent<FluffyScript>().PlaySound("scree", true);
-                transform.parent.GetComponent<FluffyScript>().Message("SCREEEEEEEEEEEE!", null, null, "fwuffy");
+                transform.parent.GetComponent<FluffyScript>().Say("SCREEEEEEEEEEEE!", null, null, "fwuffy");
                 transform.parent.GetComponent<FluffyScript>().Bleed();
             }
         }

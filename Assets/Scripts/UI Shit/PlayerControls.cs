@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Tilemaps;
 
@@ -31,7 +29,7 @@ public class PlayerControls : MonoBehaviour
 
     public float Money;
 
-    public FoodPreset Food;
+    public FoodItem Food;
 
     public string BuildTile;
     public string Layer;
@@ -703,9 +701,9 @@ public class PlayerControls : MonoBehaviour
                                         if (Feeding)
                                         {
                                             GameObject Bowl = child.parent.gameObject;
-                                            if (Bowl.GetComponent<FoodScript>().Uses < 5)
+                                            if (Bowl.GetComponent<Food>().uses < 5)
                                             {
-                                                Bowl.GetComponent<FoodScript>().Uses = Bowl.GetComponent<FoodScript>().MaxUses;
+                                                Bowl.GetComponent<Food>().uses = Bowl.GetComponent<Food>().maxUses;
                                                 GameObject Clip = Instantiate((GameObject)Resources.Load("Audio"));
                                                 Clip.transform.position = Bowl.transform.position;
                                                 Clip.GetComponent<AudioSource>().clip = (AudioClip)Resources.Load("build");
@@ -723,9 +721,9 @@ public class PlayerControls : MonoBehaviour
                                                         food.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(Food.Sprite);
                                                     }
                                                 }
-                                                Bowl.GetComponent<FoodScript>().Hunger = Food.Hunger;
-                                                Bowl.GetComponent<FoodScript>().Message = Food.Message;
-                                                Bowl.GetComponent<FoodScript>().CannibalMessage = Food.CannibalMessage;
+                                                Bowl.GetComponent<Food>().hunger = Food.Hunger;
+                                                Bowl.GetComponent<Food>().message = Food.Message;
+                                                Bowl.GetComponent<Food>().cannibalMessage = Food.CannibalMessage;
                                                 Bowl.tag = Food.Tag;
                                                 foreach (Transform effect in Bowl.transform)
                                                 {
@@ -740,18 +738,18 @@ public class PlayerControls : MonoBehaviour
                                                     EffectObject.transform.parent = Bowl.transform;
                                                     EffectObject.AddComponent<EffectScript>();
                                                     EffectScript Effect = EffectObject.GetComponent<EffectScript>();
-                                                    Effect.sound = Food.Sound;
-                                                    Effect.message = Food.EffectMessage;
-                                                    Effect.bleed = Food.Bleed;
-                                                    Effect.poop = Food.Poop;
-                                                    Effect.pose = Food.Pose;
-                                                    Effect.face = Food.Face;
-                                                    Effect.poison = Food.Poison;
-                                                    Effect.duration = Food.Duration;
-                                                    Effect.poseTime = Food.PoseTime;
-                                                    Effect.interval = Food.Interval;
-                                                    Effect.moodValue = Food.MoodValue;
-                                                    Effect.vomit = Food.Vomit;
+                                                    Effect.Sound = Food.Sound;
+                                                    Effect.Message = Food.EffectMessage;
+                                                    Effect.Bleed = Food.Bleed;
+                                                    Effect.Poop = Food.Poop;
+                                                    Effect.Pose = Food.Pose;
+                                                    Effect.Face = Food.Face;
+                                                    Effect.Poison = Food.Poison;
+                                                    Effect.Duration = Food.Duration;
+                                                    Effect.PoseTime = Food.PoseTime;
+                                                    Effect.Interval = Food.Interval;
+                                                    Effect.MoodValue = Food.MoodValue;
+                                                    Effect.Vomit = Food.Vomit;
                                                     EffectObject.SetActive(false);
                                                     EffectObject.name = "Effects";
                                                 }

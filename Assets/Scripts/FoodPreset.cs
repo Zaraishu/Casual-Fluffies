@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-[System.Serializable]
-public class FoodPreset {
+
+[CreateAssetMenu]
+public class FoodItem : ScriptableObject {
 
     public float Hunger;
 
@@ -26,5 +25,5 @@ public class FoodPreset {
     public float Interval;
     public float MoodValue;
     public bool Vomit;
-
+    public EffectScript Effect;
 }
