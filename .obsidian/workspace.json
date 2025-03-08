@@ -1,0 +1,211 @@
+{
+  "main": {
+    "id": "7e8ac1f88cf837a6",
+    "type": "split",
+    "children": [
+      {
+        "id": "7bf021b71e7d19d8",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "525b48e0fa0ab3ff",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Changelog.md",
+                "mode": "preview",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Changelog"
+            }
+          },
+          {
+            "id": "3a1e4bf92874bfb7",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Changelog.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Changelog"
+            }
+          },
+          {
+            "id": "d068953f104d495e",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "ToDos.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "ToDos"
+            }
+          }
+        ],
+        "currentTab": 2
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "b375bdc093479874",
+    "type": "split",
+    "children": [
+      {
+        "id": "65dba3ca06527a24",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "5c6bdb4364aafa3a",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "05b6e8ca6c2a0216",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "5090b792c6f7cd26",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "61acac04087503ab",
+    "type": "split",
+    "children": [
+      {
+        "id": "a46762dc201b7f77",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "7f1b1e2ad710c7ab",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Changelog.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for Changelog"
+            }
+          },
+          {
+            "id": "ccbbd0fbef4ff524",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Changelog.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from Changelog"
+            }
+          },
+          {
+            "id": "17f41291ea9610ae",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "2e068f7c06ef90b4",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Changelog.md"
+              },
+              "icon": "lucide-list",
+              "title": "Outline of Changelog"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "d068953f104d495e",
+  "lastOpenFiles": [
+    "Temp/UnityTempFile-dd528be4833122245a7307eabc446cc2",
+    "Temp/UnityTempFile-e2b99b39f560a054786b33910e90e777",
+    "Library/Artifacts/e2/e215705f30f33e52d2c3e313829106bc",
+    "Library/Artifacts/93/932adaab53230a866398246f0b383ee0",
+    "Library/Artifacts/9b/9b53ca38667488cfeae6aae2bf53fe8d",
+    "Library/Artifacts/05/05a31bc61315f87404924600355aac92",
+    "Library/Artifacts/fe/fe7c8a00182ee442ca0d217d102fd1c7",
+    "Library/Artifacts/4d/4db6736b5af035d012a048cd6ef6dca4",
+    "Library/Artifacts/90/90be3f7e9e5bc407dd6db207742b723a",
+    "Library/Artifacts/87/87569877c8abcdb309a9e0fa9189043c",
+    "Temp/UnityTempFile-79380912f3b32e84790386d966ae76e0",
+    "Changelog.md",
+    "ToDos.md"
+  ]
+}

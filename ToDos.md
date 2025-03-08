@@ -1,0 +1,11 @@
+v0.8.5.2
+- Seasons should be objects.
+- The different modes should be turned into objects.
+- Move the fluffy generation into a different class.
+- Fluffy message bubbles should be part of the prefab, and activated/deactivated by script, making the Update() method in MessageScript obsolete.
+- Check if the new effects work equally to the old scripts. Apply continuous and interval effects separately if necessary.
+- Separate Physical stats, Needs Psychological stats and the Genes into separate objects.
+- Make Needs.Sex an enum.
+- Have a basic AnimEvent class, from which BirthEvent (BirthAnimEvent) can extend. 
+- BirthAnimEvent does not need the foal generation part.
+- The abstract builder for the effects do not work as intended and need to be replaced.
